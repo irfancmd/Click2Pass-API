@@ -3,9 +3,10 @@ import { DataSource, DataSourceOptions } from 'typeorm';
 export const dataSourceOptions: DataSourceOptions = {
   type: 'mysql',
   host: '127.0.0.1',
-  port: 3300,
+  port: 3306,
   username: 'root',
   password: 'toor',
+  database: 'click2pass_primary',
   entities: ['dist/**/*.entity.js'],
   migrations: ['dist/migrations/*.js'],
 };
