@@ -6,7 +6,6 @@ export const dataSourceOptions: DataSourceOptions = {
   port: 3300,
   username: 'root',
   password: 'toor',
-  synchronize: true, // TODO: Turn off for production
   entities: ['dist/**/*.entity.js'],
   migrations: ['dist/migrations/*.js'],
 };
