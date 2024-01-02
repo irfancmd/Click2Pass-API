@@ -13,10 +13,16 @@ export class CategoryService {
     private readonly categoryRepository: Repository<Category>,
   ) {}
 
-  create(createCategoryDto: CreateCategoryDto): CommonResponseDto {
-    const category = this.categoryRepository.create(createCategoryDto);
+  async create(
+    createCategoryDto: CreateCategoryDto,
+  ): Promise<CommonResponseDto> {
+    let category = this.categoryRepository.create(createCategoryDto);
 
     if (category) {
+      category = await this.categoryRepository.save(category);
+
+      console.log(category);
+
       return {
         status: 0,
         message: 'Category created successfully.',
@@ -62,12 +68,14 @@ export class CategoryService {
     id: number,
     updateCategoryDto: UpdateCategoryDto,
   ): Promise<CommonResponseDto> {
-    const updatedCategory = await this.categoryRepository.preload({
+    let updatedCategory = await this.categoryRepository.preload({
       id,
       ...updateCategoryDto,
     });
 
     if (updatedCategory) {
+      updatedCategory = await this.categoryRepository.save(updatedCategory);
+
       return {
         status: 0,
         data: updatedCategory,

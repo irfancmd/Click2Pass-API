@@ -1,6 +1,13 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Lesson } from 'src/lesson/entities/lesson.entity';
+import {
+  Column,
+  Entity,
+  JoinTable,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
-@Entity()
+@Entity({ name: 'Category' })
 export class Category {
   @PrimaryGeneratedColumn({ type: 'int' })
   id: number;
@@ -13,4 +20,8 @@ export class Category {
 
   @Column({ name: 'creation_time', type: 'timestamp' })
   creationTime: Date;
+
+  @JoinTable()
+  @OneToMany(() => Lesson, (lesson) => lesson.categoryId, { cascade: true })
+  lessons: Lesson[];
 }

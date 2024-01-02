@@ -19,7 +19,7 @@ import { CommonModule } from './common/common.module';
       useFactory: () => ({
         ...dataSourceOptions,
         autoLoadEntities: true,
-        synchronize: true, // TODO: Remove before going to production
+        // synchronize: true, // TODO: Remove before going to production
       }),
     }),
     CommonModule,

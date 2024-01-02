@@ -1,6 +1,7 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Category } from 'src/category/entities/category.entity';
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity()
+@Entity({ name: 'Lesson' })
 export class Lesson {
   @PrimaryGeneratedColumn({ type: 'int' })
   id: number;
@@ -16,4 +17,7 @@ export class Lesson {
 
   @Column({ name: 'category_id', type: 'int' })
   categoryId: number;
+
+  @OneToOne(() => Category, (category) => category.id)
+  category: Category;
 }
