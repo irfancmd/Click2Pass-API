@@ -1,26 +1,128 @@
 import { Injectable } from '@nestjs/common';
 import { CreateLessonDto } from './dto/create-lesson.dto';
 import { UpdateLessonDto } from './dto/update-lesson.dto';
+import { Repository } from 'typeorm';
+import { Lesson } from './entities/lesson.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { CommonResponseDto } from 'src/common/dto/common-response.dto';
+import { Category } from 'src/category/entities/category.entity';
 
 @Injectable()
 export class LessonService {
-  create(createLessonDto: CreateLessonDto) {
-    return 'This action adds a new lesson';
+  constructor(
+    @InjectRepository(Lesson) private lessonRepository: Repository<Lesson>,
+  ) {}
+
+  async create(createLessonDto: CreateLessonDto): Promise<CommonResponseDto> {
+    let lesson = this.lessonRepository.create(createLessonDto);
+
+    if (lesson) {
+      lesson = await this.lessonRepository.save(lesson);
+
+      return {
+        status: 0,
+        message: 'Category created successfully.',
+      };
+    }
+
+    return {
+      status: 1,
+      message: "Couldn't create lesson.",
+    };
   }
 
-  findAll() {
-    return `This action returns all lesson`;
+  async findAll(): Promise<CommonResponseDto> {
+    const lessons = await this.lessonRepository.find({
+      relations: ['category'],
+    });
+
+    return {
+      status: lessons && lessons.length > 0 ? 0 : 1,
+      data: lessons,
+    };
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} lesson`;
+  async findOne(id: number): Promise<CommonResponseDto> {
+    const lesson = await this.lessonRepository.find({
+      where: {
+        id,
+      },
+      relations: ['category'],
+    });
+
+    if (lesson) {
+      return {
+        status: 0,
+        data: lesson,
+      };
+    }
+
+    return {
+      status: 1,
+      message: "Couldn't find lesson.",
+    };
   }
 
-  update(id: number, updateLessonDto: UpdateLessonDto) {
-    return `This action updates a #${id} lesson`;
+  async update(
+    id: number,
+    updateLessonDto: UpdateLessonDto,
+  ): Promise<CommonResponseDto> {
+    let updatedLesson = await this.lessonRepository.preload({
+      id,
+      ...updateLessonDto,
+    });
+
+    if (updatedLesson) {
+      updatedLesson = await this.lessonRepository.save(updatedLesson);
+
+      return {
+        status: 0,
+        data: updatedLesson,
+      };
+    }
+
+    return {
+      status: 1,
+      message: "Couldn't find lesson to update.",
+    };
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} lesson`;
+  async remove(id: number): Promise<CommonResponseDto> {
+    const deleteResult = await this.lessonRepository.delete({ id });
+
+    if (deleteResult.affected > 0) {
+      return {
+        status: 0,
+        message: 'Lesson deleted successfully.',
+      };
+    }
+
+    return {
+      status: 1,
+      message: "Couldn't find lesson to delete.",
+    };
   }
+
+  async preloadLessons(
+    createLessonDtos: CreateLessonDto[],
+    category: Category,
+  ) {
+    for (const createLessonDto of createLessonDtos) {
+      const lesson = await this.lessonRepository.findOneBy({
+        name: createLessonDto.name,
+      });
+
+      if (!lesson) {
+        await this.create({ ...createLessonDto, categoryId: category.id });
+      }
+    }
+  }
+
+  // async getLessonsByCategory(categoryId: number) {
+  //   const lessons = await this.lessonRepository.find({
+  //     where: {
+  //       category:
+  //     }
+  //   });
+  // }
 }

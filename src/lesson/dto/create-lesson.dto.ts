@@ -1,5 +1,13 @@
+import { IsNumber, IsOptional, IsString } from 'class-validator';
+
 export class CreateLessonDto {
-  name: string;
-  description?: string;
-  categoryId: number;
+  @IsString()
+  readonly name: string;
+
+  @IsString()
+  @IsOptional()
+  readonly description?: string;
+
+  @IsNumber()
+  readonly categoryId: number;
 }

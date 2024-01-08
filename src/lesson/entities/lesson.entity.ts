@@ -1,5 +1,11 @@
 import { Category } from 'src/category/entities/category.entity';
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity({ name: 'Lesson' })
 export class Lesson {
@@ -15,9 +21,13 @@ export class Lesson {
   @Column({ name: 'creation_time', type: 'timestamp' })
   creationTime: Date;
 
+  // We have to explicitly specify the foreign key column for an EXISTING database.
+  // Otherwise, ORM won't know that this column exists.
   @Column({ name: 'category_id', type: 'int' })
   categoryId: number;
 
-  @OneToOne(() => Category, (category) => category.id)
+  // Telling ORM that the category_id column has a foreign key in it
+  @ManyToOne(() => Category, (category) => category.lessons)
+  @JoinColumn({ name: 'category_id', referencedColumnName: 'id' })
   category: Category;
 }

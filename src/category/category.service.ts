@@ -5,12 +5,14 @@ import { Repository } from 'typeorm';
 import { Category } from './entities/category.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CommonResponseDto } from 'src/common/dto/common-response.dto';
+import { LessonService } from 'src/lesson/lesson.service';
 
 @Injectable()
 export class CategoryService {
   constructor(
     @InjectRepository(Category)
     private readonly categoryRepository: Repository<Category>,
+    private readonly lessonService: LessonService,
   ) {}
 
   async create(
@@ -21,7 +23,12 @@ export class CategoryService {
     if (category) {
       category = await this.categoryRepository.save(category);
 
-      console.log(category);
+      if (createCategoryDto.lessons) {
+        await this.lessonService.preloadLessons(
+          createCategoryDto.lessons,
+          category,
+        );
+      }
 
       return {
         status: 0,
@@ -31,12 +38,14 @@ export class CategoryService {
 
     return {
       status: 1,
-      message: "Couldn't create Category.",
+      message: "Couldn't create category.",
     };
   }
 
   async findAll(): Promise<CommonResponseDto> {
-    const categories = await this.categoryRepository.find();
+    const categories = await this.categoryRepository.find({
+      relations: ['lessons'],
+    });
 
     return {
       status: categories && categories.length > 0 ? 0 : 1,
@@ -49,6 +58,7 @@ export class CategoryService {
       where: {
         id,
       },
+      relations: ['lessons'],
     });
 
     if (category) {
@@ -60,7 +70,7 @@ export class CategoryService {
 
     return {
       status: 1,
-      message: "Couldn't find Category.",
+      message: "Couldn't find category.",
     };
   }
 
@@ -70,7 +80,9 @@ export class CategoryService {
   ): Promise<CommonResponseDto> {
     let updatedCategory = await this.categoryRepository.preload({
       id,
-      ...updateCategoryDto,
+      name: updateCategoryDto.name,
+      description: updateCategoryDto.description,
+      // Intentionally not recieving lessons while updating category
     });
 
     if (updatedCategory) {

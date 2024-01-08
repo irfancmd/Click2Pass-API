@@ -173,11 +173,11 @@ export class Question {
   @Column({ name: 'lesson_name', type: 'varchar', length: 64 })
   lessonName: string;
 
-  @Column({ name: 'subject_id', type: 'int' })
-  subjectId: number;
+  @Column({ name: 'subject_id', type: 'int', nullable: true })
+  subjectId?: number;
 
-  @Column({ name: 'subject_name', type: 'varchar', length: 64 })
-  subjectName: string;
+  @Column({ name: 'subject_name', type: 'varchar', length: 64, nullable: true })
+  subjectName?: string;
 
   @Column({ name: 'creation_time', type: 'timestamp' })
   creationTime: Date;
