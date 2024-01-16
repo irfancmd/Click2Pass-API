@@ -12,9 +12,11 @@ async function bootstrap() {
         enableImplicitConversion: true,
       },
       whitelist: true,
-      forbidNonWhitelisted: true,
+      forbidNonWhitelisted: false,
     }),
   );
+
+  app.enableCors();
 
   await app.listen(3000);
 }

@@ -10,5 +10,6 @@ export class CreateCategoryDto {
   readonly description?: string;
 
   @IsArray({ each: true })
+  @IsOptional()
   readonly lessons?: CreateLessonDto[];
 }
