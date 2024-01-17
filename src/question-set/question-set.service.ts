@@ -22,7 +22,7 @@ export class QuestionSetService {
     let questionSet = this.questionSetRepository.create(createQuestionSetDto);
 
     if (questionSet) {
-      questionSet.tempQuestionIds = createQuestionSetDto.questionIds.join(',');
+      // questionSet.tempQuestionIds = createQuestionSetDto.questionIds.join(',');
 
       questionSet = await this.questionSetRepository.save(questionSet);
 
@@ -49,9 +49,12 @@ export class QuestionSetService {
   }
 
   async findAll(): Promise<CommonResponseDto> {
-    const questionSets = await this.questionSetRepository.find({
-      relations: ['questions'],
-    });
+    const questionSets = await this.questionSetRepository
+      .find
+      //   {
+      //   relations: ['questions'],
+      // }
+      ();
 
     return {
       status: questionSets && questionSets.length > 0 ? 0 : 1,
@@ -64,7 +67,7 @@ export class QuestionSetService {
       where: {
         id,
       },
-      relations: ['questions'],
+      // relations: ['questions'],
     });
 
     if (questionSet) {
@@ -89,10 +92,10 @@ export class QuestionSetService {
       ...updateQuestionSetDto,
     });
 
-    if (updateQuestionSetDto.questionIds) {
-      updatedQuestionSet.tempQuestionIds =
-        updateQuestionSetDto.questionIds.join(',');
-    }
+    // if (updateQuestionSetDto.questionIds) {
+    //   updatedQuestionSet.tempQuestionIds =
+    //     updateQuestionSetDto.questionIds.join(',');
+    // }
 
     if (updatedQuestionSet) {
       updatedQuestionSet =
