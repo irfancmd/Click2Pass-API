@@ -54,7 +54,7 @@ export class CategoryService {
   }
 
   async findOne(id: number): Promise<CommonResponseDto> {
-    const category = await this.categoryRepository.find({
+    const category = await this.categoryRepository.findOne({
       where: {
         id,
       },

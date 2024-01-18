@@ -60,7 +60,7 @@ export class QuestionService {
   }
 
   async findOne(id: number): Promise<CommonResponseDto> {
-    const question = await this.questionRepository.find({
+    const question = await this.questionRepository.findOne({
       where: {
         id,
       },

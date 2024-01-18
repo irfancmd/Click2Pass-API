@@ -56,7 +56,7 @@ export class QuestionSetService {
   }
 
   async findOne(id: number): Promise<CommonResponseDto> {
-    const questionSet = await this.questionSetRepository.find({
+    const questionSet = await this.questionSetRepository.findOne({
       where: {
         id,
       },
@@ -94,11 +94,6 @@ export class QuestionSetService {
         );
       }
     }
-
-    // if (updateQuestionSetDto.questionIds) {
-    //   updatedQuestionSet.tempQuestionIds =
-    //     updateQuestionSetDto.questionIds.join(',');
-    // }
 
     if (updatedQuestionSet) {
       updatedQuestionSet =

@@ -9,6 +9,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { dataSourceOptions } from './data.source';
 import { CommonModule } from './common/common.module';
 import { QuestionSetModule } from './question-set/question-set.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { QuestionSetModule } from './question-set/question-set.module';
     }),
     CommonModule,
     QuestionSetModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],

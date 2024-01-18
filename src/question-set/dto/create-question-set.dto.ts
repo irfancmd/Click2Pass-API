@@ -10,7 +10,4 @@ export class CreateQuestionSetDto {
 
   @IsArray()
   readonly questionIds: number[];
-
-  // @IsString()
-  // readonly tempQuestionIds: string;
 }

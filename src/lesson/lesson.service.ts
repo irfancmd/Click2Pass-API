@@ -21,7 +21,7 @@ export class LessonService {
 
       return {
         status: 0,
-        message: 'Category created successfully.',
+        message: 'Lesson created successfully.',
       };
     }
 
@@ -43,7 +43,7 @@ export class LessonService {
   }
 
   async findOne(id: number): Promise<CommonResponseDto> {
-    const lesson = await this.lessonRepository.find({
+    const lesson = await this.lessonRepository.findOne({
       where: {
         id,
       },
