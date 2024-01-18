@@ -21,20 +21,16 @@ export class QuestionSetService {
   ): Promise<CommonResponseDto> {
     let questionSet = this.questionSetRepository.create(createQuestionSetDto);
 
+    questionSet.questions = [];
+
+    for (const questionId of createQuestionSetDto.questionIds) {
+      questionSet.questions.push(
+        await this.questionRepository.findOneBy({ id: questionId }),
+      );
+    }
+
     if (questionSet) {
-      // questionSet.tempQuestionIds = createQuestionSetDto.questionIds.join(',');
-
       questionSet = await this.questionSetRepository.save(questionSet);
-
-      // questionSet.questions = [];
-
-      // for (const questionId of createQuestionSetDto.questionIds) {
-      //   questionSet.questions.push(
-      //     await this.questionRepository.findOneBy({ id: questionId }),
-      //   );
-      // }
-
-      // questionSet = await this.questionSetRepository.save(questionSet);
 
       return {
         status: 0,
@@ -49,12 +45,9 @@ export class QuestionSetService {
   }
 
   async findAll(): Promise<CommonResponseDto> {
-    const questionSets = await this.questionSetRepository
-      .find
-      //   {
-      //   relations: ['questions'],
-      // }
-      ();
+    const questionSets = await this.questionSetRepository.find({
+      relations: ['questions'],
+    });
 
     return {
       status: questionSets && questionSets.length > 0 ? 0 : 1,
@@ -67,7 +60,7 @@ export class QuestionSetService {
       where: {
         id,
       },
-      // relations: ['questions'],
+      relations: ['questions'],
     });
 
     if (questionSet) {
@@ -92,6 +85,16 @@ export class QuestionSetService {
       ...updateQuestionSetDto,
     });
 
+    if (updateQuestionSetDto.questionIds) {
+      updatedQuestionSet.questions = [];
+
+      for (const questionId of updateQuestionSetDto.questionIds) {
+        updatedQuestionSet.questions.push(
+          await this.questionRepository.findOneBy({ id: questionId }),
+        );
+      }
+    }
+
     // if (updateQuestionSetDto.questionIds) {
     //   updatedQuestionSet.tempQuestionIds =
     //     updateQuestionSetDto.questionIds.join(',');
@@ -103,6 +106,9 @@ export class QuestionSetService {
 
       return {
         status: 0,
+        // Note: preload doesn't load relations. So, if the relations are UNCHANGED, their information
+        // won't be loaded as preload does lazy loading. Updating relation information like updating the join query
+        // will however, done properly by the preload function.
         data: updatedQuestionSet,
       };
     }

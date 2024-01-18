@@ -1,7 +1,10 @@
 // import { Question } from 'src/question/entities/question.entity';
+import { Question } from 'src/question/entities/question.entity';
 import {
   Column,
   Entity,
+  JoinTable,
+  ManyToMany,
   // JoinTable,
   // ManyToMany,
   PrimaryGeneratedColumn,
@@ -21,20 +24,20 @@ export class QuestionSet {
   @Column({ name: 'creation_time', type: 'timestamp' })
   creationTime: Date;
 
-  @Column({ name: 'temp_question_ids', type: 'varchar', length: 1024 })
-  tempQuestionIds: string;
+  // @Column({ name: 'temp_question_ids', type: 'varchar', length: 1024 })
+  // tempQuestionIds: string;
 
-  // @ManyToMany(() => Question)
-  // @JoinTable({
-  //   name: 'Question_Set_Question',
-  //   joinColumn: {
-  //     name: 'question_id',
-  //     referencedColumnName: 'id',
-  //   },
-  //   inverseJoinColumn: {
-  //     name: 'question_set_id',
-  //     referencedColumnName: 'id',
-  //   },
-  // })
-  // questions: Question[];
+  @ManyToMany(() => Question)
+  @JoinTable({
+    name: 'Question_Set_Question',
+    joinColumn: {
+      name: 'question_set_id',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: {
+      name: 'question_id',
+      referencedColumnName: 'id',
+    },
+  })
+  questions: Question[];
 }

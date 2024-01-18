@@ -1,4 +1,4 @@
-import { IsOptional, IsString } from 'class-validator';
+import { IsArray, IsOptional, IsString } from 'class-validator';
 
 export class CreateQuestionSetDto {
   @IsString()
@@ -8,9 +8,9 @@ export class CreateQuestionSetDto {
   @IsOptional()
   readonly description?: string;
 
-  // @IsArray()
-  // readonly questionIds: number[];
+  @IsArray()
+  readonly questionIds: number[];
 
-  @IsString()
-  readonly tempQuestionIds: string;
+  // @IsString()
+  // readonly tempQuestionIds: string;
 }
