@@ -7,6 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CommonResponseDto } from 'src/common/dto/common-response.dto';
 import * as bcrypt from 'bcrypt';
 import { AuthRequestDto } from 'src/common/dto/auth-request.dto';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class UserService {
@@ -15,6 +16,7 @@ export class UserService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    private readonly jwtService: JwtService,
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<CommonResponseDto> {
@@ -140,11 +142,21 @@ export class UserService {
     if (user) {
       // The second parameter of compare is the hashed password.
       if (await bcrypt.compare(authRequestDto.password, user.password)) {
+        const payload = {
+          sub: user.id,
+          username: user.name,
+          email: user.email,
+        };
+
+        const jwtToken = await this.jwtService.signAsync(payload);
+
         return {
           status: 0,
+          message: 'Logged in successfully.',
           data: {
             name: user.name,
             email: user.email,
+            access_token: jwtToken,
           },
         };
       } else {
