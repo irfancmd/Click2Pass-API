@@ -10,6 +10,7 @@ import { dataSourceOptions } from './data.source';
 import { CommonModule } from './common/common.module';
 import { QuestionSetModule } from './question-set/question-set.module';
 import { UserModule } from './user/user.module';
+import { ExamModule } from './exam/exam.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { UserModule } from './user/user.module';
     CommonModule,
     QuestionSetModule,
     UserModule,
+    ExamModule,
   ],
   controllers: [AppController],
   providers: [AppService],
