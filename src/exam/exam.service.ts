@@ -5,19 +5,39 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Exam } from './entities/exam.entity';
 import { Repository } from 'typeorm';
 import { CommonResponseDto } from 'src/common/dto/common-response.dto';
+import { QuestionService } from 'src/question/question.service';
 
 @Injectable()
 export class ExamService {
   constructor(
     @InjectRepository(Exam) private examRepository: Repository<Exam>,
+    private questionService: QuestionService,
   ) {}
 
-  async create(createExamDto: CreateExamDto): Promise<CommonResponseDto> {
-    let exam = this.examRepository.create(createExamDto);
+  async create(): Promise<CommonResponseDto> {
+    let exam = this.examRepository.create(new CreateExamDto());
+    const randomQuestionIds = (
+      await this.questionService.getRandomQuestions()
+    ).map((questionObj) => {
+      return questionObj.questionId;
+    });
+
+    if (randomQuestionIds.length == 0) {
+      return {
+        status: 1,
+        message: "Couldn't create exam.",
+      };
+    }
+
     exam.achievedScore = 0;
-    exam.totalScore = 20;
+    exam.totalScore = randomQuestionIds.length;
+    exam.questionCount = randomQuestionIds.length;
     exam.startTime = new Date();
     exam.testCompleted = false;
+
+    for (let i = 0; i < randomQuestionIds.length; i++) {
+      exam[`q${i + 1}Id`] = randomQuestionIds[i];
+    }
 
     if (exam) {
       exam = await this.examRepository.save(exam);
@@ -25,6 +45,7 @@ export class ExamService {
       return {
         status: 0,
         message: 'Exam created successfully.',
+        data: exam.id,
       };
     }
 

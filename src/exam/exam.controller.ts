@@ -8,7 +8,7 @@ import {
   Delete,
 } from '@nestjs/common';
 import { ExamService } from './exam.service';
-import { CreateExamDto } from './dto/create-exam.dto';
+// import { CreateExamDto } from './dto/create-exam.dto';
 import { UpdateExamDto } from './dto/update-exam.dto';
 
 @Controller('exam')
@@ -16,8 +16,9 @@ export class ExamController {
   constructor(private readonly examService: ExamService) {}
 
   @Post()
-  create(@Body() createExamDto: CreateExamDto) {
-    return this.examService.create(createExamDto);
+  // @Body() createExamDto: CreateExamDt
+  create() {
+    return this.examService.create();
   }
 
   @Get()

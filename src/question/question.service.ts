@@ -6,6 +6,7 @@ import { Question } from './entities/question.entity';
 import { Repository } from 'typeorm';
 import { CommonResponseDto } from 'src/common/dto/common-response.dto';
 import { Lesson } from 'src/lesson/entities/lesson.entity';
+import { Category } from 'src/category/entities/category.entity';
 
 @Injectable()
 export class QuestionService {
@@ -14,6 +15,8 @@ export class QuestionService {
     private readonly questionRepository: Repository<Question>,
     @InjectRepository(Lesson)
     private readonly lessonRepository: Repository<Lesson>,
+    @InjectRepository(Category)
+    private readonly categoryRepository: Repository<Category>,
   ) {}
 
   async create(
@@ -117,5 +120,56 @@ export class QuestionService {
       status: 1,
       message: "Couldn't find question to delete.",
     };
+  }
+
+  async getRandomQuestions(
+    totalExpectedQuestion: number = 4,
+  ): Promise<{ chapterId: number; questionId: number }[]> {
+    const questionCount = await this.questionRepository.count();
+
+    if (totalExpectedQuestion > questionCount) {
+      return [];
+    }
+
+    const categories = await this.categoryRepository.find();
+    const questionsPerChapter = Math.floor(
+      totalExpectedQuestion / categories.length,
+    );
+
+    const questionSet: Set<{ chapterId: number; questionId: number }> =
+      new Set();
+
+    for (const category of categories) {
+      const questions = await this.questionRepository.find({
+        where: {
+          categoryId: category.id,
+        },
+      });
+
+      let count = 0;
+      let limit = questionsPerChapter;
+
+      if (questions.length < questionsPerChapter) {
+        limit = questions.length;
+      }
+
+      while (count < limit) {
+        const randomIndex = Math.floor(Math.random() * limit);
+
+        const questionObj = {
+          chapterId: category.id,
+          questionId: questions[randomIndex].id,
+        };
+
+        if (!questionSet.has(questionObj)) {
+          questionSet.add(questionObj);
+          count++;
+        } else {
+          continue;
+        }
+      }
+    }
+
+    return Array.from(questionSet);
   }
 }

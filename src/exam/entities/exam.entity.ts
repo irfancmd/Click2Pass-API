@@ -7,7 +7,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
-@Entity({ name: 'test' })
+@Entity({ name: 'exam' })
 export class Exam {
   @PrimaryGeneratedColumn({ type: 'int' })
   id: number;
@@ -220,6 +220,9 @@ export class Exam {
 
   @Column({ name: 'examinee_id', type: 'int', nullable: true })
   examineeId?: number;
+
+  @Column({ name: 'question_count', type: 'int' })
+  questionCount: number;
 
   @Column({ name: 'total_score', type: 'int', nullable: true })
   totalScore?: number;
