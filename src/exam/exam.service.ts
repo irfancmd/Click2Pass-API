@@ -35,6 +35,10 @@ export class ExamService {
     exam.startTime = new Date();
     exam.testCompleted = false;
 
+    const endTime = new Date();
+    endTime.setMinutes(endTime.getMinutes() + 20);
+    exam.endTime = endTime;
+
     for (let i = 0; i < randomQuestionIds.length; i++) {
       exam[`q${i + 1}Id`] = randomQuestionIds[i];
     }
