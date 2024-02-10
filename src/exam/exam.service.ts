@@ -14,15 +14,27 @@ export class ExamService {
     private questionService: QuestionService,
   ) {}
 
-  async create(): Promise<CommonResponseDto> {
+  async create(chapterId?: number): Promise<CommonResponseDto> {
     let exam = this.examRepository.create(new CreateExamDto());
-    const randomQuestionIds = (
-      await this.questionService.getRandomQuestions()
-    ).map((questionObj) => {
-      return questionObj.questionId;
-    });
 
-    if (randomQuestionIds.length == 0) {
+    let questionIds: number[] = [];
+
+    if (!chapterId) {
+      // Get random questions
+      questionIds = (await this.questionService.getRandomQuestions()).map(
+        (questionObj) => {
+          return questionObj.questionId;
+        },
+      );
+    } else {
+      questionIds = (
+        await this.questionService.getChapterWiseQuestions(chapterId)
+      ).map((questionObj) => {
+        return questionObj.id;
+      });
+    }
+
+    if (questionIds.length == 0) {
       return {
         status: 1,
         message: "Couldn't create exam.",
@@ -30,8 +42,8 @@ export class ExamService {
     }
 
     exam.achievedScore = 0;
-    exam.totalScore = randomQuestionIds.length;
-    exam.questionCount = randomQuestionIds.length;
+    exam.totalScore = questionIds.length;
+    exam.questionCount = questionIds.length;
     exam.startTime = new Date();
     exam.testCompleted = false;
 
@@ -39,8 +51,8 @@ export class ExamService {
     endTime.setMinutes(endTime.getMinutes() + 20);
     exam.endTime = endTime;
 
-    for (let i = 0; i < randomQuestionIds.length; i++) {
-      exam[`q${i + 1}Id`] = randomQuestionIds[i];
+    for (let i = 0; i < questionIds.length; i++) {
+      exam[`q${i + 1}Id`] = questionIds[i];
     }
 
     if (exam) {

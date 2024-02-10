@@ -99,6 +99,7 @@ export class CreateQuestionDto {
   categoryId?: number;
 
   @IsNumber()
+  @IsOptional()
   lessonId: number;
 
   @IsNumber()

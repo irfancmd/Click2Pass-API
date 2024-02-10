@@ -22,30 +22,33 @@ export class QuestionService {
   async create(
     createQuestionDto: CreateQuestionDto,
   ): Promise<CommonResponseDto> {
-    const lesson = await this.lessonRepository.findOne({
-      where: {
-        id: createQuestionDto.lessonId,
-      },
-      relations: ['category'],
-    });
+    // if(lesson)
+    // const lesson = await this.lessonRepository.findOne({
+    //   where: {
+    //     id: createQuestionDto.lessonId,
+    //   },
+    //   relations: ['category'],
+    // });
 
-    if (lesson) {
-      let question = await this.questionRepository.create({
-        ...createQuestionDto,
-        lessonName: lesson.name,
-        categoryId: lesson.category.id,
-        categoryName: lesson.category.name,
-      });
+    let question = await this.questionRepository.create(createQuestionDto);
 
-      if (question) {
-        question = await this.questionRepository.save(question);
+    // if (lesson) {
+    //   let question = await this.questionRepository.create({
+    //     ...createQuestionDto,
+    //     lessonName: lesson.name,
+    //     categoryId: lesson.category.id,
+    //     categoryName: lesson.category.name,
+    //   });
 
-        return {
-          status: 0,
-          message: 'Question created successfully.',
-        };
-      }
+    if (question) {
+      question = await this.questionRepository.save(question);
+
+      return {
+        status: 0,
+        message: 'Question created successfully.',
+      };
     }
+    // }
 
     return {
       status: 1,
@@ -123,7 +126,7 @@ export class QuestionService {
   }
 
   async getRandomQuestions(
-    totalExpectedQuestion: number = 4,
+    totalExpectedQuestion: number = 10,
   ): Promise<{ chapterId: number; questionId: number }[]> {
     const questionCount = await this.questionRepository.count();
 
@@ -131,7 +134,10 @@ export class QuestionService {
       return [];
     }
 
-    const categories = await this.categoryRepository.find();
+    const categories = await this.categoryRepository.find({
+      // TODO: Fix
+      where: [{ id: 15 }, { id: 16 }],
+    });
     const questionsPerChapter = Math.floor(
       totalExpectedQuestion / categories.length,
     );
@@ -171,5 +177,16 @@ export class QuestionService {
     }
 
     return Array.from(questionSet);
+  }
+
+  async getChapterWiseQuestions(chapterId: number, limit: number = 20) {
+    const questions = await this.questionRepository.find({
+      where: {
+        categoryId: chapterId,
+      },
+      take: limit,
+    });
+
+    return questions;
   }
 }

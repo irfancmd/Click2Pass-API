@@ -161,17 +161,22 @@ export class Question {
   })
   answerOption6MediaType?: number;
 
-  @Column({ name: 'category_id', type: 'int' })
-  categoryId: number;
+  @Column({ name: 'category_id', type: 'int', nullable: true })
+  categoryId?: number;
 
-  @Column({ name: 'category_name', type: 'varchar', length: 64 })
-  categoryName: string;
+  @Column({
+    name: 'category_name',
+    type: 'varchar',
+    length: 64,
+    nullable: true,
+  })
+  categoryName?: string;
 
-  @Column({ name: 'lesson_id', type: 'int' })
-  lessonId: number;
+  @Column({ name: 'lesson_id', type: 'int', nullable: true })
+  lessonId?: number;
 
-  @Column({ name: 'lesson_name', type: 'varchar', length: 64 })
-  lessonName: string;
+  @Column({ name: 'lesson_name', type: 'varchar', length: 64, nullable: true })
+  lessonName?: string;
 
   @Column({ name: 'subject_id', type: 'int', nullable: true })
   subjectId?: number;
