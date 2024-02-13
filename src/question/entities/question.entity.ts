@@ -1,8 +1,8 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity({ name: 'Question' })
+@Entity({ name: 'question' })
 export class Question {
-  @PrimaryGeneratedColumn({ type: 'int' })
+  @PrimaryGeneratedColumn({ type: 'bigint', unsigned: true })
   id: number;
 
   @Column({ name: 'question_text', type: 'varchar', length: 512 })
@@ -16,16 +16,20 @@ export class Question {
   })
   questionMediaUrl?: string;
 
-  @Column({ name: 'question_media_type', type: 'tinyint', nullable: true })
+  @Column({ name: 'question_media_type', type: 'tinyint' })
   questionMediaType?: number;
 
-  @Column({ name: 'num_options_visible', type: 'smallint', nullable: true })
+  @Column({ name: 'num_options_visible', type: 'tinyint' })
   numberOfOptionsVisible?: number;
 
   @Column({ name: 'question_type', type: 'tinyint' })
   questionType?: number;
 
-  @Column({ name: 'correct_answer_text', type: 'varchar', length: 256 })
+  @Column({
+    name: 'correct_answer_text',
+    type: 'varchar',
+    length: 256,
+  })
   correctAnswerText: string;
 
   @Column({ name: 'answer_option_1_text', type: 'varchar', length: 512 })
@@ -161,7 +165,12 @@ export class Question {
   })
   answerOption6MediaType?: number;
 
-  @Column({ name: 'category_id', type: 'int', nullable: true })
+  @Column({
+    name: 'category_id',
+    type: 'bigint',
+    unsigned: true,
+    nullable: true,
+  })
   categoryId?: number;
 
   @Column({
@@ -172,17 +181,27 @@ export class Question {
   })
   categoryName?: string;
 
-  @Column({ name: 'lesson_id', type: 'int', nullable: true })
+  @Column({ name: 'lesson_id', type: 'bigint', unsigned: true, nullable: true })
   lessonId?: number;
 
   @Column({ name: 'lesson_name', type: 'varchar', length: 64, nullable: true })
   lessonName?: string;
 
-  @Column({ name: 'subject_id', type: 'int', nullable: true })
-  subjectId?: number;
+  @Column({
+    name: 'curriculum_id',
+    type: 'bigint',
+    unsigned: true,
+    nullable: true,
+  })
+  curriculumId?: number;
 
-  @Column({ name: 'subject_name', type: 'varchar', length: 64, nullable: true })
-  subjectName?: string;
+  @Column({
+    name: 'curriculum_name',
+    type: 'varchar',
+    length: 64,
+    nullable: true,
+  })
+  curriculumName?: string;
 
   @Column({ name: 'creation_time', type: 'timestamp' })
   creationTime: Date;

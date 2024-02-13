@@ -1,8 +1,8 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity({ name: 'User' })
+@Entity({ name: 'user' })
 export class User {
-  @PrimaryGeneratedColumn({ type: 'int' })
+  @PrimaryGeneratedColumn({ type: 'bigint', unsigned: true })
   id: number;
 
   @Column({ type: 'varchar', length: 45 })
@@ -13,6 +13,9 @@ export class User {
 
   @Column({ type: 'varchar', length: 256 })
   password: string;
+
+  @Column({ name: 'role_id', type: 'bigint', unsigned: true, nullable: true })
+  roleId: number;
 
   @Column({ name: 'creation_time', type: 'timestamp' })
   creationTime: Date;

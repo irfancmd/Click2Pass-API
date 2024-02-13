@@ -1,18 +1,15 @@
-// import { Question } from 'src/question/entities/question.entity';
 import { Question } from 'src/question/entities/question.entity';
 import {
   Column,
   Entity,
   JoinTable,
   ManyToMany,
-  // JoinTable,
-  // ManyToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
-@Entity({ name: 'Question_Set' })
+@Entity({ name: 'question_set' })
 export class QuestionSet {
-  @PrimaryGeneratedColumn({ type: 'int' })
+  @PrimaryGeneratedColumn({ type: 'bigint', unsigned: true })
   id: number;
 
   @Column({ type: 'varchar', length: 64 })
@@ -23,9 +20,6 @@ export class QuestionSet {
 
   @Column({ name: 'creation_time', type: 'timestamp' })
   creationTime: Date;
-
-  // @Column({ name: 'temp_question_ids', type: 'varchar', length: 1024 })
-  // tempQuestionIds: string;
 
   @ManyToMany(() => Question)
   @JoinTable({

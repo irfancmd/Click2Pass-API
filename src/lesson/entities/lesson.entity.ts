@@ -7,9 +7,9 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
-@Entity({ name: 'Lesson' })
+@Entity({ name: 'lesson' })
 export class Lesson {
-  @PrimaryGeneratedColumn({ type: 'int' })
+  @PrimaryGeneratedColumn({ type: 'bigint', unsigned: true })
   id: number;
 
   @Column({ type: 'varchar', length: 64 })
@@ -23,11 +23,14 @@ export class Lesson {
 
   // We have to explicitly specify the foreign key column for an EXISTING database.
   // Otherwise, ORM won't know that this column exists.
-  @Column({ name: 'category_id', type: 'int' })
+  @Column({ name: 'category_id', type: 'bigint', unsigned: true })
   categoryId: number;
 
   // Telling ORM that the category_id column has a foreign key in it
-  @ManyToOne(() => Category, (category) => category.lessons)
+  @ManyToOne(() => Category, (category) => category.lessons, {
+    onUpdate: 'CASCADE',
+    onDelete: 'RESTRICT',
+  })
   @JoinColumn({ name: 'category_id', referencedColumnName: 'id' })
   category: Category;
 }

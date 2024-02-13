@@ -3,7 +3,6 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CategoryModule } from './category/category.module';
 import { LessonModule } from './lesson/lesson.module';
-import { SubjectModule } from './subject/subject.module';
 import { QuestionModule } from './question/question.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { dataSourceOptions } from './data.source';
@@ -16,7 +15,6 @@ import { ExamModule } from './exam/exam.module';
   imports: [
     CategoryModule,
     LessonModule,
-    SubjectModule,
     QuestionModule,
     TypeOrmModule.forRootAsync({
       useFactory: () => ({
