@@ -1,7 +1,7 @@
 import { IsArray, IsOptional, IsString } from 'class-validator';
 import { CreateLessonDto } from 'src/lesson/dto/create-lesson.dto';
 
-export class CreateCategoryDto {
+export class CreateChapterDto {
   @IsString()
   readonly name: string;
 

@@ -1,8 +1,8 @@
 import { Lesson } from 'src/lesson/entities/lesson.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity({ name: 'category' })
-export class Category {
+@Entity({ name: 'chapter' })
+export class Chapter {
   @PrimaryGeneratedColumn({ type: 'bigint', unsigned: true })
   id: number;
 
@@ -17,6 +17,6 @@ export class Category {
 
   // Not putting JoinColumn here because this is actually NOT a real column in the database.
   // The ORM will load lessons that belongs to that category if we load a category eagerly.
-  @OneToMany(() => Lesson, (lesson) => lesson.category)
+  @OneToMany(() => Lesson, (lesson) => lesson.chapter)
   lessons: Lesson[];
 }

@@ -96,7 +96,7 @@ export class CreateQuestionDto {
 
   @IsNumber()
   @IsOptional()
-  categoryId?: number;
+  chapterId?: number;
 
   @IsNumber()
   @IsOptional()
@@ -104,5 +104,5 @@ export class CreateQuestionDto {
 
   @IsNumber()
   @IsOptional()
-  subjectId?: number;
+  curriculumId?: number;
 }

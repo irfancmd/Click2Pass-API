@@ -9,5 +9,5 @@ export class CreateLessonDto {
   readonly description?: string;
 
   @IsNumber()
-  readonly categoryId: number;
+  readonly chapterId: number;
 }

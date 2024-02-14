@@ -1,4 +1,4 @@
-import { Category } from 'src/category/entities/category.entity';
+import { Chapter } from 'src/chapter/entities/chapter.entity';
 import {
   Column,
   Entity,
@@ -23,14 +23,14 @@ export class Lesson {
 
   // We have to explicitly specify the foreign key column for an EXISTING database.
   // Otherwise, ORM won't know that this column exists.
-  @Column({ name: 'category_id', type: 'bigint', unsigned: true })
-  categoryId: number;
+  @Column({ name: 'chapter_id', type: 'bigint', unsigned: true })
+  chapterId: number;
 
-  // Telling ORM that the category_id column has a foreign key in it
-  @ManyToOne(() => Category, (category) => category.lessons, {
+  // Telling ORM that the chapter_id column has a foreign key in it
+  @ManyToOne(() => Chapter, (chapter) => chapter.lessons, {
     onUpdate: 'CASCADE',
     onDelete: 'RESTRICT',
   })
-  @JoinColumn({ name: 'category_id', referencedColumnName: 'id' })
-  category: Category;
+  @JoinColumn({ name: 'chapter_id', referencedColumnName: 'id' })
+  chapter: Chapter;
 }

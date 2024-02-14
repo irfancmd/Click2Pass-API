@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { CategoryModule } from './category/category.module';
+import { ChapterModule } from './chapter/chapter.module';
 import { LessonModule } from './lesson/lesson.module';
 import { QuestionModule } from './question/question.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -14,7 +14,7 @@ import { CurriculumModule } from './curriculum/curriculum.module';
 
 @Module({
   imports: [
-    CategoryModule,
+    ChapterModule,
     LessonModule,
     QuestionModule,
     TypeOrmModule.forRootAsync({

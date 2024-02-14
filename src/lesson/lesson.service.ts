@@ -5,7 +5,7 @@ import { Repository } from 'typeorm';
 import { Lesson } from './entities/lesson.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CommonResponseDto } from 'src/common/dto/common-response.dto';
-import { Category } from 'src/category/entities/category.entity';
+import { Chapter } from 'src/chapter/entities/chapter.entity';
 
 @Injectable()
 export class LessonService {
@@ -33,7 +33,7 @@ export class LessonService {
 
   async findAll(): Promise<CommonResponseDto> {
     const lessons = await this.lessonRepository.find({
-      relations: ['category'],
+      relations: ['chapter'],
     });
 
     return {
@@ -47,7 +47,7 @@ export class LessonService {
       where: {
         id,
       },
-      relations: ['category'],
+      relations: ['chapter'],
     });
 
     if (lesson) {
@@ -103,25 +103,22 @@ export class LessonService {
     };
   }
 
-  async preloadLessons(
-    createLessonDtos: CreateLessonDto[],
-    category: Category,
-  ) {
+  async preloadLessons(createLessonDtos: CreateLessonDto[], chapter: Chapter) {
     for (const createLessonDto of createLessonDtos) {
       const lesson = await this.lessonRepository.findOneBy({
         name: createLessonDto.name,
       });
 
       if (!lesson) {
-        await this.create({ ...createLessonDto, categoryId: category.id });
+        await this.create({ ...createLessonDto, chapterId: chapter.id });
       }
     }
   }
 
-  // async getLessonsByCategory(categoryId: number) {
+  // async getLessonsByChapter(chapterId: number) {
   //   const lessons = await this.lessonRepository.find({
   //     where: {
-  //       category:
+  //       chapter:
   //     }
   //   });
   // }

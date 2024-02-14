@@ -6,7 +6,7 @@ import { Question } from './entities/question.entity';
 import { Repository } from 'typeorm';
 import { CommonResponseDto } from 'src/common/dto/common-response.dto';
 import { Lesson } from 'src/lesson/entities/lesson.entity';
-import { Category } from 'src/category/entities/category.entity';
+import { Chapter } from 'src/chapter/entities/chapter.entity';
 
 @Injectable()
 export class QuestionService {
@@ -15,8 +15,8 @@ export class QuestionService {
     private readonly questionRepository: Repository<Question>,
     @InjectRepository(Lesson)
     private readonly lessonRepository: Repository<Lesson>,
-    @InjectRepository(Category)
-    private readonly categoryRepository: Repository<Category>,
+    @InjectRepository(Chapter)
+    private readonly chapterRepository: Repository<Chapter>,
   ) {}
 
   async create(
@@ -27,7 +27,7 @@ export class QuestionService {
     //   where: {
     //     id: createQuestionDto.lessonId,
     //   },
-    //   relations: ['category'],
+    //   relations: ['chapter'],
     // });
 
     let question = await this.questionRepository.create(createQuestionDto);
@@ -36,8 +36,8 @@ export class QuestionService {
     //   let question = await this.questionRepository.create({
     //     ...createQuestionDto,
     //     lessonName: lesson.name,
-    //     categoryId: lesson.category.id,
-    //     categoryName: lesson.category.name,
+    //     chapterId: lesson.chapter.id,
+    //     chapterName: lesson.chapter.name,
     //   });
 
     if (question) {
@@ -134,21 +134,21 @@ export class QuestionService {
       return [];
     }
 
-    const categories = await this.categoryRepository.find({
+    const chapters = await this.chapterRepository.find({
       // TODO: Fix
       where: [{ id: 15 }, { id: 16 }],
     });
     const questionsPerChapter = Math.floor(
-      totalExpectedQuestion / categories.length,
+      totalExpectedQuestion / chapters.length,
     );
 
     const questionSet: Set<{ chapterId: number; questionId: number }> =
       new Set();
 
-    for (const category of categories) {
+    for (const chapter of chapters) {
       const questions = await this.questionRepository.find({
         where: {
-          categoryId: category.id,
+          chapterId: chapter.id,
         },
       });
 
@@ -163,7 +163,7 @@ export class QuestionService {
         const randomIndex = Math.floor(Math.random() * limit);
 
         const questionObj = {
-          chapterId: category.id,
+          chapterId: chapter.id,
           questionId: questions[randomIndex].id,
         };
 
@@ -182,7 +182,7 @@ export class QuestionService {
   async getChapterWiseQuestions(chapterId: number, limit: number = 20) {
     const questions = await this.questionRepository.find({
       where: {
-        categoryId: chapterId,
+        chapterId: chapterId,
       },
       take: limit,
     });

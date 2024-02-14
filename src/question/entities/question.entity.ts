@@ -166,20 +166,20 @@ export class Question {
   answerOption6MediaType?: number;
 
   @Column({
-    name: 'category_id',
+    name: 'chapter_id',
     type: 'bigint',
     unsigned: true,
     nullable: true,
   })
-  categoryId?: number;
+  chapterId?: number;
 
   @Column({
-    name: 'category_name',
+    name: 'chapter_name',
     type: 'varchar',
     length: 64,
     nullable: true,
   })
-  categoryName?: string;
+  chapterName?: string;
 
   @Column({ name: 'lesson_id', type: 'bigint', unsigned: true, nullable: true })
   lessonId?: number;
