@@ -10,6 +10,7 @@ import { CommonModule } from './common/common.module';
 import { QuestionSetModule } from './question-set/question-set.module';
 import { UserModule } from './user/user.module';
 import { ExamModule } from './exam/exam.module';
+import { CurriculumModule } from './curriculum/curriculum.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { ExamModule } from './exam/exam.module';
     QuestionSetModule,
     UserModule,
     ExamModule,
+    CurriculumModule,
   ],
   controllers: [AppController],
   providers: [AppService],
