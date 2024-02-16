@@ -6,19 +6,27 @@ import { Chapter } from './entities/chapter.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CommonResponseDto } from 'src/common/dto/common-response.dto';
 import { LessonService } from 'src/lesson/lesson.service';
+import { Curriculum } from 'src/curriculum/entities/curriculum.entity';
 
 @Injectable()
 export class ChapterService {
   constructor(
     @InjectRepository(Chapter)
     private readonly chapterRepository: Repository<Chapter>,
+    @InjectRepository(Curriculum)
+    private readonly curriculumRepository: Repository<Curriculum>,
     private readonly lessonService: LessonService,
   ) {}
 
   async create(createChapterDto: CreateChapterDto): Promise<CommonResponseDto> {
     let chapter = this.chapterRepository.create(createChapterDto);
 
-    if (chapter) {
+    const curriculum = await this.curriculumRepository.findOneBy({
+      id: createChapterDto.curriculumId,
+    });
+
+    if (chapter && curriculum) {
+      chapter.curriculum = curriculum;
       chapter = await this.chapterRepository.save(chapter);
 
       if (createChapterDto.lessons) {
@@ -42,7 +50,7 @@ export class ChapterService {
 
   async findAll(): Promise<CommonResponseDto> {
     const chapters = await this.chapterRepository.find({
-      relations: ['lessons'],
+      relations: ['lessons', 'curriculum'],
     });
 
     return {
@@ -56,7 +64,7 @@ export class ChapterService {
       where: {
         id,
       },
-      relations: ['lessons'],
+      relations: ['lessons', 'curriculum'],
     });
 
     if (chapter) {
@@ -84,6 +92,16 @@ export class ChapterService {
     });
 
     if (updatedChapter) {
+      if (updateChapterDto.curriculumId) {
+        const curriculum = await this.curriculumRepository.findOneBy({
+          id: updateChapterDto.curriculumId,
+        });
+
+        if (curriculum) {
+          updatedChapter.curriculum = curriculum;
+        }
+      }
+
       updatedChapter = await this.chapterRepository.save(updatedChapter);
 
       return {

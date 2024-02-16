@@ -46,6 +46,7 @@ export class ExamService {
     exam.questionCount = questionIds.length;
     exam.startTime = new Date();
     exam.testCompleted = false;
+    exam.examineeId = 1;
 
     const endTime = new Date();
     endTime.setMinutes(endTime.getMinutes() + 20);

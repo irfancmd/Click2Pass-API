@@ -23,7 +23,7 @@ export class QuestionSet {
 
   @ManyToMany(() => Question)
   @JoinTable({
-    name: 'Question_Set_Question',
+    name: 'question_set_question',
     joinColumn: {
       name: 'question_set_id',
       referencedColumnName: 'id',

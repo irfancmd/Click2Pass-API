@@ -5,9 +5,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Chapter } from './entities/chapter.entity';
 import { LessonModule } from 'src/lesson/lesson.module';
 import { Lesson } from 'src/lesson/entities/lesson.entity';
+import { Curriculum } from 'src/curriculum/entities/curriculum.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Chapter, Lesson]), LessonModule],
+  imports: [
+    TypeOrmModule.forFeature([Chapter, Lesson, Curriculum]),
+    LessonModule,
+  ],
   controllers: [ChapterController],
   providers: [ChapterService],
 })

@@ -1,5 +1,13 @@
+import { Curriculum } from 'src/curriculum/entities/curriculum.entity';
 import { Lesson } from 'src/lesson/entities/lesson.entity';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity({ name: 'chapter' })
 export class Chapter {
@@ -14,6 +22,13 @@ export class Chapter {
 
   @Column({ name: 'creation_time', type: 'timestamp' })
   creationTime: Date;
+
+  @Column({ name: 'curriculum_id', type: 'bigint', unsigned: true })
+  curriculumId: number;
+
+  @ManyToOne(() => Curriculum)
+  @JoinColumn({ name: 'curriculum_id', referencedColumnName: 'id' })
+  curriculum: Curriculum;
 
   // Not putting JoinColumn here because this is actually NOT a real column in the database.
   // The ORM will load lessons that belongs to that category if we load a category eagerly.
