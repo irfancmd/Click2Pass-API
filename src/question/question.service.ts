@@ -44,10 +44,16 @@ export class QuestionService {
         where: {
           id: createQuestionDto.chapterId,
         },
+        relations: ['curriculum'],
       });
 
       if (chapter) {
         question.chapterName = chapter.name;
+
+        if (chapter.curriculum) {
+          question.curriculumId = chapter.curriculumId;
+          question.curriculumName = chapter.curriculum.name;
+        }
       }
     }
 
@@ -133,10 +139,16 @@ export class QuestionService {
         where: {
           id: updateQuestionDto.chapterId,
         },
+        relations: ['curriculum'],
       });
 
       if (chapter) {
         updatedQuestion.chapterName = chapter.name;
+
+        if (chapter.curriculum) {
+          updatedQuestion.curriculumId = chapter.curriculumId;
+          updatedQuestion.curriculumName = chapter.curriculum.name;
+        }
       }
     }
 
