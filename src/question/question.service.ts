@@ -7,6 +7,7 @@ import { Repository } from 'typeorm';
 import { CommonResponseDto } from 'src/common/dto/common-response.dto';
 import { Lesson } from 'src/lesson/entities/lesson.entity';
 import { Chapter } from 'src/chapter/entities/chapter.entity';
+import { Curriculum } from 'src/curriculum/entities/curriculum.entity';
 
 @Injectable()
 export class QuestionService {
@@ -17,28 +18,50 @@ export class QuestionService {
     private readonly lessonRepository: Repository<Lesson>,
     @InjectRepository(Chapter)
     private readonly chapterRepository: Repository<Chapter>,
+    @InjectRepository(Curriculum)
+    private readonly curriculumRepository: Repository<Curriculum>,
   ) {}
 
   async create(
     createQuestionDto: CreateQuestionDto,
   ): Promise<CommonResponseDto> {
-    // if(lesson)
-    // const lesson = await this.lessonRepository.findOne({
-    //   where: {
-    //     id: createQuestionDto.lessonId,
-    //   },
-    //   relations: ['chapter'],
-    // });
-
     let question = await this.questionRepository.create(createQuestionDto);
 
-    // if (lesson) {
-    //   let question = await this.questionRepository.create({
-    //     ...createQuestionDto,
-    //     lessonName: lesson.name,
-    //     chapterId: lesson.chapter.id,
-    //     chapterName: lesson.chapter.name,
-    //   });
+    if (question && createQuestionDto.lessonId) {
+      const lesson = await this.lessonRepository.findOne({
+        where: {
+          id: createQuestionDto.lessonId,
+        },
+      });
+
+      if (lesson) {
+        question.lessonName = lesson.name;
+      }
+    }
+
+    if (question && createQuestionDto.chapterId) {
+      const chapter = await this.chapterRepository.findOne({
+        where: {
+          id: createQuestionDto.chapterId,
+        },
+      });
+
+      if (chapter) {
+        question.chapterName = chapter.name;
+      }
+    }
+
+    if (question && createQuestionDto.curriculumId) {
+      const curriculum = await this.curriculumRepository.findOne({
+        where: {
+          id: createQuestionDto.curriculumId,
+        },
+      });
+
+      if (curriculum) {
+        question.curriculumName = curriculum.name;
+      }
+    }
 
     if (question) {
       question = await this.questionRepository.save(question);
@@ -48,7 +71,6 @@ export class QuestionService {
         message: 'Question created successfully.',
       };
     }
-    // }
 
     return {
       status: 1,
@@ -93,6 +115,42 @@ export class QuestionService {
       id,
       ...updateQuestionDto,
     });
+
+    if (updatedQuestion && updateQuestionDto.lessonId) {
+      const lesson = await this.lessonRepository.findOne({
+        where: {
+          id: updateQuestionDto.lessonId,
+        },
+      });
+
+      if (lesson) {
+        updatedQuestion.lessonName = lesson.name;
+      }
+    }
+
+    if (updatedQuestion && updateQuestionDto.chapterId) {
+      const chapter = await this.chapterRepository.findOne({
+        where: {
+          id: updateQuestionDto.chapterId,
+        },
+      });
+
+      if (chapter) {
+        updatedQuestion.chapterName = chapter.name;
+      }
+    }
+
+    if (updatedQuestion && updateQuestionDto.curriculumId) {
+      const curriculum = await this.curriculumRepository.findOne({
+        where: {
+          id: updateQuestionDto.curriculumId,
+        },
+      });
+
+      if (curriculum) {
+        updatedQuestion.curriculumName = curriculum.name;
+      }
+    }
 
     if (updatedQuestion) {
       updatedQuestion = await this.questionRepository.save(updatedQuestion);
