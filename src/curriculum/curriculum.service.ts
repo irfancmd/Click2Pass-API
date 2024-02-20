@@ -42,7 +42,7 @@ export class CurriculumService {
     };
   }
 
-  async findOne(id: number): Promise<CommonResponseDto> {
+  async findOne(id: string): Promise<CommonResponseDto> {
     const curriculum = await this.curriculumRepository.findOne({
       where: {
         id,
@@ -63,7 +63,7 @@ export class CurriculumService {
   }
 
   async update(
-    id: number,
+    id: string,
     updateCurriculumDto: UpdateCurriculumDto,
   ): Promise<CommonResponseDto> {
     let updatedCurriculum = await this.curriculumRepository.preload({
@@ -87,7 +87,7 @@ export class CurriculumService {
     };
   }
 
-  async remove(id: number): Promise<CommonResponseDto> {
+  async remove(id: string): Promise<CommonResponseDto> {
     const deletedResult = await this.curriculumRepository.delete({ id });
 
     if (deletedResult.affected > 0) {

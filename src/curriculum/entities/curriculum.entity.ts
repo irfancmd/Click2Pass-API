@@ -3,7 +3,7 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 @Entity({ name: 'curriculum' })
 export class Curriculum {
   @PrimaryGeneratedColumn({ type: 'bigint', unsigned: true })
-  id: number;
+  id: string;
 
   @Column({ type: 'varchar', length: 64 })
   name: string;

@@ -10,7 +10,7 @@ import {
 @Entity({ name: 'lesson' })
 export class Lesson {
   @PrimaryGeneratedColumn({ type: 'bigint', unsigned: true })
-  id: number;
+  id: string;
 
   @Column({ type: 'varchar', length: 64 })
   name: string;

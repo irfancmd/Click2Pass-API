@@ -17,7 +17,7 @@ export class ExamService {
   async create(chapterId?: string): Promise<CommonResponseDto> {
     let exam = this.examRepository.create(new CreateExamDto());
 
-    let questionIds: number[] = [];
+    let questionIds: string[] = [];
 
     if (!chapterId) {
       // Get random questions
@@ -46,7 +46,7 @@ export class ExamService {
     exam.questionCount = questionIds.length;
     exam.startTime = new Date();
     exam.testCompleted = false;
-    exam.examineeId = 1;
+    exam.examineeId = '1';
 
     const endTime = new Date();
     endTime.setMinutes(endTime.getMinutes() + 20);
@@ -104,7 +104,7 @@ export class ExamService {
     };
   }
 
-  async findOne(id: number): Promise<CommonResponseDto> {
+  async findOne(id: string): Promise<CommonResponseDto> {
     const exam = await this.examRepository.findOne({
       where: {
         id,
@@ -147,7 +147,7 @@ export class ExamService {
   }
 
   async update(
-    id: number,
+    id: string,
     updateExamDto: UpdateExamDto,
   ): Promise<CommonResponseDto> {
     let updatedExam = await this.examRepository.preload({
@@ -170,7 +170,7 @@ export class ExamService {
     };
   }
 
-  async remove(id: number): Promise<CommonResponseDto> {
+  async remove(id: string): Promise<CommonResponseDto> {
     const deleteResult = await this.examRepository.delete({ id });
 
     if (deleteResult.affected > 0) {

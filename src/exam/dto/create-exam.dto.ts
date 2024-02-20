@@ -7,161 +7,161 @@ import {
 } from 'class-validator';
 
 export class CreateExamDto {
-  @IsNumber()
+  @IsString()
   @IsOptional()
-  q1Id?: number;
+  q1Id?: string;
 
   @IsString()
   @IsOptional()
   q1Ans?: string;
 
-  @IsNumber()
+  @IsString()
   @IsOptional()
-  q2Id?: number;
+  q2Id?: string;
 
   @IsString()
   @IsOptional()
   q2Ans?: string;
 
-  @IsNumber()
+  @IsString()
   @IsOptional()
-  q3Id?: number;
+  q3Id?: string;
 
   @IsString()
   @IsOptional()
   q3Ans?: string;
 
-  @IsNumber()
+  @IsString()
   @IsOptional()
-  q4Id?: number;
+  q4Id?: string;
 
   @IsString()
   @IsOptional()
   q4Ans?: string;
 
-  @IsNumber()
+  @IsString()
   @IsOptional()
-  q5Id?: number;
+  q5Id?: string;
 
   @IsString()
   @IsOptional()
   q5Ans?: string;
 
-  @IsNumber()
+  @IsString()
   @IsOptional()
-  q6Id?: number;
+  q6Id?: string;
 
   @IsString()
   @IsOptional()
   q6Ans?: string;
 
-  @IsNumber()
+  @IsString()
   @IsOptional()
-  q7Id?: number;
+  q7Id?: string;
 
   @IsString()
   @IsOptional()
   q7Ans?: string;
 
-  @IsNumber()
+  @IsString()
   @IsOptional()
-  q8Id?: number;
+  q8Id?: string;
 
   @IsString()
   @IsOptional()
   q8Ans?: string;
 
-  @IsNumber()
+  @IsString()
   @IsOptional()
-  q9Id?: number;
+  q9Id?: string;
 
   @IsString()
   @IsOptional()
   q9Ans?: string;
 
-  @IsNumber()
+  @IsString()
   @IsOptional()
-  q10Id?: number;
+  q10Id?: string;
 
   @IsString()
   @IsOptional()
   q10Ans?: string;
 
-  @IsNumber()
+  @IsString()
   @IsOptional()
-  q11Id?: number;
+  q11Id?: string;
 
   @IsString()
   @IsOptional()
   q11Ans?: string;
 
-  @IsNumber()
+  @IsString()
   @IsOptional()
-  q12Id?: number;
+  q12Id?: string;
 
   @IsString()
   @IsOptional()
   q12Ans?: string;
 
-  @IsNumber()
+  @IsString()
   @IsOptional()
-  q13Id?: number;
+  q13Id?: string;
 
   @IsString()
   @IsOptional()
   q13Ans?: string;
 
-  @IsNumber()
+  @IsString()
   @IsOptional()
-  q14Id?: number;
+  q14Id?: string;
 
   @IsString()
   @IsOptional()
   q14Ans?: string;
 
-  @IsNumber()
+  @IsString()
   @IsOptional()
-  q15Id?: number;
+  q15Id?: string;
 
   @IsString()
   @IsOptional()
   q15Ans?: string;
 
-  @IsNumber()
+  @IsString()
   @IsOptional()
-  q16Id?: number;
+  q16Id?: string;
 
   @IsString()
   @IsOptional()
   q16Ans?: string;
 
-  @IsNumber()
+  @IsString()
   @IsOptional()
-  q17Id?: number;
+  q17Id?: string;
 
   @IsString()
   @IsOptional()
   q17Ans?: string;
 
-  @IsNumber()
+  @IsString()
   @IsOptional()
-  q18Id?: number;
+  q18Id?: string;
 
   @IsString()
   @IsOptional()
   q18Ans?: string;
 
-  @IsNumber()
+  @IsString()
   @IsOptional()
-  q19Id?: number;
+  q19Id?: string;
 
   @IsString()
   @IsOptional()
   q19Ans?: string;
 
-  @IsNumber()
+  @IsString()
   @IsOptional()
-  q20Id?: number;
+  q20Id?: string;
 
   @IsString()
   @IsOptional()
@@ -175,9 +175,9 @@ export class CreateExamDto {
   @IsOptional()
   endTime?: Date;
 
-  @IsNumber()
+  @IsString()
   @IsOptional()
-  examineeId?: number;
+  examineeId?: string;
 
   @IsNumber()
   @IsOptional()

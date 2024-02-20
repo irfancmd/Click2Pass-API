@@ -98,11 +98,11 @@ export class CreateQuestionDto {
   @IsOptional()
   chapterId?: string;
 
-  @IsNumber()
+  @IsString()
   @IsOptional()
-  lessonId: number;
+  lessonId: string;
 
-  @IsNumber()
+  @IsString()
   @IsOptional()
-  curriculumId?: number;
+  curriculumId?: string;
 }

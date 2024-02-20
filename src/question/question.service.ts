@@ -93,7 +93,7 @@ export class QuestionService {
     };
   }
 
-  async findOne(id: number): Promise<CommonResponseDto> {
+  async findOne(id: string): Promise<CommonResponseDto> {
     const question = await this.questionRepository.findOne({
       where: {
         id,
@@ -114,7 +114,7 @@ export class QuestionService {
   }
 
   async update(
-    id: number,
+    id: string,
     updateQuestionDto: UpdateQuestionDto,
   ): Promise<CommonResponseDto> {
     let updatedQuestion = await this.questionRepository.preload({
@@ -179,7 +179,7 @@ export class QuestionService {
     };
   }
 
-  async remove(id: number): Promise<CommonResponseDto> {
+  async remove(id: string): Promise<CommonResponseDto> {
     const deleteResult = await this.questionRepository.delete({ id });
 
     if (deleteResult.affected > 0) {
@@ -197,7 +197,7 @@ export class QuestionService {
 
   async getRandomQuestions(
     totalExpectedQuestion: number = 10,
-  ): Promise<{ chapterId: string; questionId: number }[]> {
+  ): Promise<{ chapterId: string; questionId: string }[]> {
     const questionCount = await this.questionRepository.count();
 
     if (totalExpectedQuestion > questionCount) {
@@ -212,7 +212,7 @@ export class QuestionService {
       totalExpectedQuestion / chapters.length,
     );
 
-    const questionSet: Set<{ chapterId: string; questionId: number }> =
+    const questionSet: Set<{ chapterId: string; questionId: string }> =
       new Set();
 
     for (const chapter of chapters) {

@@ -9,5 +9,5 @@ export class CreateQuestionSetDto {
   readonly description?: string;
 
   @IsArray()
-  readonly questionIds: number[];
+  readonly questionIds: string[];
 }

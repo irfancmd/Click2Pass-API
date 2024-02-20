@@ -41,7 +41,7 @@ export class LessonService {
     };
   }
 
-  async findOne(id: number): Promise<CommonResponseDto> {
+  async findOne(id: string): Promise<CommonResponseDto> {
     const lesson = await this.lessonRepository.findOne({
       where: {
         id,
@@ -63,7 +63,7 @@ export class LessonService {
   }
 
   async update(
-    id: number,
+    id: string,
     updateLessonDto: UpdateLessonDto,
   ): Promise<CommonResponseDto> {
     let updatedLesson = await this.lessonRepository.preload({
@@ -86,7 +86,7 @@ export class LessonService {
     };
   }
 
-  async remove(id: number): Promise<CommonResponseDto> {
+  async remove(id: string): Promise<CommonResponseDto> {
     const deleteResult = await this.lessonRepository.delete({ id });
 
     if (deleteResult.affected > 0) {

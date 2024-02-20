@@ -3,7 +3,7 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 @Entity({ name: 'question' })
 export class Question {
   @PrimaryGeneratedColumn({ type: 'bigint', unsigned: true })
-  id: number;
+  id: string;
 
   @Column({ name: 'question_text', type: 'varchar', length: 512 })
   questionText: string;
@@ -182,7 +182,7 @@ export class Question {
   chapterName?: string;
 
   @Column({ name: 'lesson_id', type: 'bigint', unsigned: true, nullable: true })
-  lessonId?: number;
+  lessonId?: string;
 
   @Column({ name: 'lesson_name', type: 'varchar', length: 64, nullable: true })
   lessonName?: string;
@@ -193,7 +193,7 @@ export class Question {
     unsigned: true,
     nullable: true,
   })
-  curriculumId?: number;
+  curriculumId?: string;
 
   @Column({
     name: 'curriculum_name',

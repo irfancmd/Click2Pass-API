@@ -59,7 +59,7 @@ export class UserService {
     };
   }
 
-  async findOne(id: number): Promise<CommonResponseDto> {
+  async findOne(id: string): Promise<CommonResponseDto> {
     const user = await this.userRepository.findOne({
       where: {
         id,
@@ -80,7 +80,7 @@ export class UserService {
   }
 
   async update(
-    id: number,
+    id: string,
     updateUserDto: UpdateUserDto,
   ): Promise<CommonResponseDto> {
     if (updateUserDto.email) {
@@ -116,7 +116,7 @@ export class UserService {
     };
   }
 
-  async remove(id: number): Promise<CommonResponseDto> {
+  async remove(id: string): Promise<CommonResponseDto> {
     const deleteResult = await this.userRepository.delete({ id });
 
     if (deleteResult.affected > 0) {

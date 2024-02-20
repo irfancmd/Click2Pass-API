@@ -10,10 +10,10 @@ import {
 @Entity({ name: 'exam' })
 export class Exam {
   @PrimaryGeneratedColumn({ type: 'bigint', unsigned: true })
-  id: number;
+  id: string;
 
   @Column({ type: 'bigint', unsigned: true, nullable: true })
-  q1Id?: number;
+  q1Id?: string;
 
   @Column({ type: 'varchar', length: 256, nullable: true })
   q1Ans?: string;
@@ -23,7 +23,7 @@ export class Exam {
   q1: Question;
 
   @Column({ type: 'bigint', unsigned: true, nullable: true })
-  q2Id?: number;
+  q2Id?: string;
 
   @Column({ type: 'varchar', length: 256, nullable: true })
   q2Ans?: string;
@@ -33,7 +33,7 @@ export class Exam {
   q2: Question;
 
   @Column({ type: 'bigint', unsigned: true, nullable: true })
-  q3Id?: number;
+  q3Id?: string;
 
   @Column({ type: 'varchar', length: 256, nullable: true })
   q3Ans?: string;
@@ -43,7 +43,7 @@ export class Exam {
   q3: Question;
 
   @Column({ type: 'bigint', unsigned: true, nullable: true })
-  q4Id?: number;
+  q4Id?: string;
 
   @Column({ type: 'varchar', length: 256, nullable: true })
   q4Ans?: string;
@@ -53,7 +53,7 @@ export class Exam {
   q4: Question;
 
   @Column({ type: 'bigint', unsigned: true, nullable: true })
-  q5Id?: number;
+  q5Id?: string;
 
   @Column({ type: 'varchar', length: 256, nullable: true })
   q5Ans?: string;
@@ -63,7 +63,7 @@ export class Exam {
   q5: Question;
 
   @Column({ type: 'bigint', unsigned: true, nullable: true })
-  q6Id?: number;
+  q6Id?: string;
 
   @Column({ type: 'varchar', length: 256, nullable: true })
   q6Ans?: string;
@@ -73,7 +73,7 @@ export class Exam {
   q6: Question;
 
   @Column({ type: 'bigint', unsigned: true, nullable: true })
-  q7Id?: number;
+  q7Id?: string;
 
   @Column({ type: 'varchar', length: 256, nullable: true })
   q7Ans?: string;
@@ -83,7 +83,7 @@ export class Exam {
   q7: Question;
 
   @Column({ type: 'bigint', unsigned: true, nullable: true })
-  q8Id?: number;
+  q8Id?: string;
 
   @Column({ type: 'varchar', length: 256, nullable: true })
   q8Ans?: string;
@@ -93,7 +93,7 @@ export class Exam {
   q8: Question;
 
   @Column({ type: 'bigint', unsigned: true, nullable: true })
-  q9Id?: number;
+  q9Id?: string;
 
   @Column({ type: 'varchar', length: 256, nullable: true })
   q9Ans?: string;
@@ -103,7 +103,7 @@ export class Exam {
   q9: Question;
 
   @Column({ type: 'bigint', unsigned: true, nullable: true })
-  q10Id?: number;
+  q10Id?: string;
 
   @Column({ type: 'varchar', length: 256, nullable: true })
   q10Ans?: string;
@@ -113,7 +113,7 @@ export class Exam {
   q10: Question;
 
   @Column({ type: 'bigint', unsigned: true, nullable: true })
-  q11Id?: number;
+  q11Id?: string;
 
   @Column({ type: 'varchar', length: 256, nullable: true })
   q11Ans?: string;
@@ -123,7 +123,7 @@ export class Exam {
   q11: Question;
 
   @Column({ type: 'bigint', unsigned: true, nullable: true })
-  q12Id?: number;
+  q12Id?: string;
 
   @Column({ type: 'varchar', length: 256, nullable: true })
   q12Ans?: string;
@@ -133,7 +133,7 @@ export class Exam {
   q12: Question;
 
   @Column({ type: 'bigint', unsigned: true, nullable: true })
-  q13Id?: number;
+  q13Id?: string;
 
   @Column({ type: 'varchar', length: 256, nullable: true })
   q13Ans?: string;
@@ -143,7 +143,7 @@ export class Exam {
   q13: Question;
 
   @Column({ type: 'bigint', unsigned: true, nullable: true })
-  q14Id?: number;
+  q14Id?: string;
 
   @Column({ type: 'varchar', length: 256, nullable: true })
   q14Ans?: string;
@@ -153,7 +153,7 @@ export class Exam {
   q14: Question;
 
   @Column({ type: 'bigint', unsigned: true, nullable: true })
-  q15Id?: number;
+  q15Id?: string;
 
   @Column({ type: 'varchar', length: 256, nullable: true })
   q15Ans?: string;
@@ -163,7 +163,7 @@ export class Exam {
   q15: Question;
 
   @Column({ type: 'bigint', unsigned: true, nullable: true })
-  q16Id?: number;
+  q16Id?: string;
 
   @Column({ type: 'varchar', length: 256, nullable: true })
   q16Ans?: string;
@@ -173,7 +173,7 @@ export class Exam {
   q16: Question;
 
   @Column({ type: 'bigint', unsigned: true, nullable: true })
-  q17Id?: number;
+  q17Id?: string;
 
   @Column({ type: 'varchar', length: 256, nullable: true })
   q17Ans?: string;
@@ -183,7 +183,7 @@ export class Exam {
   q17: Question;
 
   @Column({ type: 'bigint', unsigned: true, nullable: true })
-  q18Id?: number;
+  q18Id?: string;
 
   @Column({ type: 'varchar', length: 256, nullable: true })
   q18Ans?: string;
@@ -193,7 +193,7 @@ export class Exam {
   q18: Question;
 
   @Column({ type: 'bigint', unsigned: true, nullable: true })
-  q19Id?: number;
+  q19Id?: string;
 
   @Column({ type: 'varchar', length: 256, nullable: true })
   q19Ans?: string;
@@ -203,7 +203,7 @@ export class Exam {
   q19: Question;
 
   @Column({ type: 'bigint', unsigned: true, nullable: true })
-  q20Id?: number;
+  q20Id?: string;
 
   @Column({ type: 'varchar', length: 256, nullable: true })
   q20Ans?: string;
@@ -233,7 +233,7 @@ export class Exam {
     unsigned: true,
     nullable: true,
   })
-  examineeId?: number;
+  examineeId?: string;
 
   @Column({ name: 'test_completed', type: 'tinyint', nullable: true })
   testCompleted?: boolean;

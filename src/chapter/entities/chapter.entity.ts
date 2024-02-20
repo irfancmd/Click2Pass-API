@@ -24,7 +24,7 @@ export class Chapter {
   creationTime: Date;
 
   @Column({ name: 'curriculum_id', type: 'bigint', unsigned: true })
-  curriculumId: number;
+  curriculumId: string;
 
   @ManyToOne(() => Curriculum)
   @JoinColumn({ name: 'curriculum_id', referencedColumnName: 'id' })

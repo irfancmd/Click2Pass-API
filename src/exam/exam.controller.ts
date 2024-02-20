@@ -28,16 +28,16 @@ export class ExamController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.examService.findOne(+id);
+    return this.examService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateExamDto: UpdateExamDto) {
-    return this.examService.update(+id, updateExamDto);
+    return this.examService.update(id, updateExamDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.examService.remove(+id);
+    return this.examService.remove(id);
   }
 }

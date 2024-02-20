@@ -3,7 +3,7 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 @Entity({ name: 'user' })
 export class User {
   @PrimaryGeneratedColumn({ type: 'bigint', unsigned: true })
-  id: number;
+  id: string;
 
   @Column({ type: 'varchar', length: 45 })
   name: string;
@@ -15,7 +15,7 @@ export class User {
   password: string;
 
   @Column({ name: 'role_id', type: 'bigint', unsigned: true, nullable: true })
-  roleId: number;
+  roleId: string;
 
   @Column({ name: 'creation_time', type: 'timestamp' })
   creationTime: Date;
