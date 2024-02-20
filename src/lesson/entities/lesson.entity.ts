@@ -24,7 +24,7 @@ export class Lesson {
   // We have to explicitly specify the foreign key column for an EXISTING database.
   // Otherwise, ORM won't know that this column exists.
   @Column({ name: 'chapter_id', type: 'bigint', unsigned: true })
-  chapterId: number;
+  chapterId: string;
 
   // Telling ORM that the chapter_id column has a foreign key in it
   @ManyToOne(() => Chapter, (chapter) => chapter.lessons, {

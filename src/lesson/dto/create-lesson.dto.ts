@@ -1,4 +1,4 @@
-import { IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsOptional, IsString } from 'class-validator';
 
 export class CreateLessonDto {
   @IsString()
@@ -8,6 +8,6 @@ export class CreateLessonDto {
   @IsOptional()
   readonly description?: string;
 
-  @IsNumber()
-  readonly chapterId: number;
+  @IsString()
+  readonly chapterId: string;
 }

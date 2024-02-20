@@ -94,9 +94,9 @@ export class CreateQuestionDto {
   @IsOptional()
   answerOption6MediaType?: number;
 
-  @IsNumber()
+  @IsString()
   @IsOptional()
-  chapterId?: number;
+  chapterId?: string;
 
   @IsNumber()
   @IsOptional()

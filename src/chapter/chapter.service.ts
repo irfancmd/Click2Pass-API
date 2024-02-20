@@ -29,12 +29,12 @@ export class ChapterService {
       chapter.curriculum = curriculum;
       chapter = await this.chapterRepository.save(chapter);
 
-      if (createChapterDto.lessons) {
-        await this.lessonService.preloadLessons(
-          createChapterDto.lessons,
-          chapter,
-        );
-      }
+      // if (createChapterDto.lessons) {
+      //   await this.lessonService.preloadLessons(
+      //     createChapterDto.lessons,
+      //     chapter,
+      //   );
+      // }
 
       return {
         status: 0,
@@ -59,7 +59,7 @@ export class ChapterService {
     };
   }
 
-  async findOne(id: number): Promise<CommonResponseDto> {
+  async findOne(id: string): Promise<CommonResponseDto> {
     const chapter = await this.chapterRepository.findOne({
       where: {
         id,
@@ -81,14 +81,12 @@ export class ChapterService {
   }
 
   async update(
-    id: number,
+    id: string,
     updateChapterDto: UpdateChapterDto,
   ): Promise<CommonResponseDto> {
     let updatedChapter = await this.chapterRepository.preload({
       id,
-      name: updateChapterDto.name,
-      description: updateChapterDto.description,
-      // Intentionally not recieving lessons while updating chapter
+      ...updateChapterDto,
     });
 
     if (updatedChapter) {
@@ -116,7 +114,7 @@ export class ChapterService {
     };
   }
 
-  async remove(id: number): Promise<CommonResponseDto> {
+  async remove(id: string): Promise<CommonResponseDto> {
     const deleteResult = await this.chapterRepository.delete({ id });
 
     if (deleteResult.affected > 0) {

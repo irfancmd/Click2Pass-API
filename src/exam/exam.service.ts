@@ -14,7 +14,7 @@ export class ExamService {
     private questionService: QuestionService,
   ) {}
 
-  async create(chapterId?: number): Promise<CommonResponseDto> {
+  async create(chapterId?: string): Promise<CommonResponseDto> {
     let exam = this.examRepository.create(new CreateExamDto());
 
     let questionIds: number[] = [];

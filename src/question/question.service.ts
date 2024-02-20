@@ -197,7 +197,7 @@ export class QuestionService {
 
   async getRandomQuestions(
     totalExpectedQuestion: number = 10,
-  ): Promise<{ chapterId: number; questionId: number }[]> {
+  ): Promise<{ chapterId: string; questionId: number }[]> {
     const questionCount = await this.questionRepository.count();
 
     if (totalExpectedQuestion > questionCount) {
@@ -206,13 +206,13 @@ export class QuestionService {
 
     const chapters = await this.chapterRepository.find({
       // TODO: Fix
-      where: [{ id: 15 }, { id: 16 }],
+      where: [{ id: '15' }, { id: '16' }],
     });
     const questionsPerChapter = Math.floor(
       totalExpectedQuestion / chapters.length,
     );
 
-    const questionSet: Set<{ chapterId: number; questionId: number }> =
+    const questionSet: Set<{ chapterId: string; questionId: number }> =
       new Set();
 
     for (const chapter of chapters) {
@@ -249,7 +249,7 @@ export class QuestionService {
     return Array.from(questionSet);
   }
 
-  async getChapterWiseQuestions(chapterId: number, limit: number = 20) {
+  async getChapterWiseQuestions(chapterId: string, limit: number = 20) {
     const questions = await this.questionRepository.find({
       where: {
         chapterId: chapterId,

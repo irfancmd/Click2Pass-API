@@ -12,7 +12,7 @@ import {
 @Entity({ name: 'chapter' })
 export class Chapter {
   @PrimaryGeneratedColumn({ type: 'bigint', unsigned: true })
-  id: number;
+  id: string;
 
   @Column({ type: 'varchar', length: 64 })
   name: string;

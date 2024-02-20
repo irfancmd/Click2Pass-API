@@ -171,7 +171,7 @@ export class Question {
     unsigned: true,
     nullable: true,
   })
-  chapterId?: number;
+  chapterId?: string;
 
   @Column({
     name: 'chapter_name',

@@ -1,5 +1,5 @@
-import { IsArray, IsNumber, IsOptional, IsString } from 'class-validator';
-import { CreateLessonDto } from 'src/lesson/dto/create-lesson.dto';
+import { IsNumber, IsOptional, IsString } from 'class-validator';
+// import { CreateLessonDto } from 'src/lesson/dto/create-lesson.dto';
 
 export class CreateChapterDto {
   @IsString()
@@ -12,7 +12,7 @@ export class CreateChapterDto {
   @IsNumber()
   readonly curriculumId: number;
 
-  @IsArray({ each: true })
-  @IsOptional()
-  readonly lessons?: CreateLessonDto[];
+  // @IsArray({ each: true })
+  // @IsOptional()
+  // readonly lessons?: CreateLessonDto[];
 }

@@ -27,16 +27,16 @@ export class ChapterController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.chapterService.findOne(+id);
+    return this.chapterService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateChapterDto: UpdateChapterDto) {
-    return this.chapterService.update(+id, updateChapterDto);
+    return this.chapterService.update(id, updateChapterDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.chapterService.remove(+id);
+    return this.chapterService.remove(id);
   }
 }

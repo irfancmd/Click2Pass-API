@@ -5,7 +5,6 @@ import { Repository } from 'typeorm';
 import { Lesson } from './entities/lesson.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CommonResponseDto } from 'src/common/dto/common-response.dto';
-import { Chapter } from 'src/chapter/entities/chapter.entity';
 
 @Injectable()
 export class LessonService {
@@ -103,17 +102,17 @@ export class LessonService {
     };
   }
 
-  async preloadLessons(createLessonDtos: CreateLessonDto[], chapter: Chapter) {
-    for (const createLessonDto of createLessonDtos) {
-      const lesson = await this.lessonRepository.findOneBy({
-        name: createLessonDto.name,
-      });
+  // async preloadLessons(createLessonDtos: CreateLessonDto[], chapter: Chapter) {
+  //   for (const createLessonDto of createLessonDtos) {
+  //     const lesson = await this.lessonRepository.findOneBy({
+  //       name: createLessonDto.name,
+  //     });
 
-      if (!lesson) {
-        await this.create({ ...createLessonDto, chapterId: chapter.id });
-      }
-    }
-  }
+  //     if (!lesson) {
+  //       await this.create({ ...createLessonDto, chapterId: chapter.id });
+  //     }
+  //   }
+  // }
 
   // async getLessonsByChapter(chapterId: number) {
   //   const lessons = await this.lessonRepository.find({
