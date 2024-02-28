@@ -35,7 +35,7 @@ export class QuestionService {
       });
 
       if (lesson) {
-        question.lessonName = lesson.name;
+        question.lesson = lesson;
       }
     }
 
@@ -48,11 +48,10 @@ export class QuestionService {
       });
 
       if (chapter) {
-        question.chapterName = chapter.name;
+        question.chapter = chapter;
 
         if (chapter.curriculum) {
-          question.curriculumId = chapter.curriculumId;
-          question.curriculumName = chapter.curriculum.name;
+          question.curriculum = chapter.curriculum;
         }
       }
     }
@@ -65,7 +64,7 @@ export class QuestionService {
       });
 
       if (curriculum) {
-        question.curriculumName = curriculum.name;
+        question.curriculum = curriculum;
       }
     }
 
@@ -85,7 +84,9 @@ export class QuestionService {
   }
 
   async findAll(): Promise<CommonResponseDto> {
-    const questions = await this.questionRepository.find();
+    const questions = await this.questionRepository.find({
+      relations: ['chapter', 'lesson', 'curriculum'],
+    });
 
     return {
       status: questions && QuestionService.length > 0 ? 0 : 1,
@@ -98,6 +99,7 @@ export class QuestionService {
       where: {
         id,
       },
+      relations: ['chapter', 'lesson', 'curriculum'],
     });
 
     if (question) {
@@ -130,7 +132,7 @@ export class QuestionService {
       });
 
       if (lesson) {
-        updatedQuestion.lessonName = lesson.name;
+        updatedQuestion.lesson = lesson;
       }
     }
 
@@ -143,11 +145,10 @@ export class QuestionService {
       });
 
       if (chapter) {
-        updatedQuestion.chapterName = chapter.name;
+        updatedQuestion.chapter = chapter;
 
         if (chapter.curriculum) {
-          updatedQuestion.curriculumId = chapter.curriculumId;
-          updatedQuestion.curriculumName = chapter.curriculum.name;
+          updatedQuestion.curriculum = chapter.curriculum;
         }
       }
     }
@@ -160,7 +161,7 @@ export class QuestionService {
       });
 
       if (curriculum) {
-        updatedQuestion.curriculumName = curriculum.name;
+        updatedQuestion.curriculum = curriculum;
       }
     }
 
@@ -220,6 +221,7 @@ export class QuestionService {
         where: {
           chapterId: chapter.id,
         },
+        relations: ['chapter', 'lesson', 'curriculum'],
       });
 
       let count = 0;
@@ -255,6 +257,7 @@ export class QuestionService {
         chapterId: chapterId,
       },
       take: limit,
+      relations: ['chapter', 'lesson', 'curriculum'],
     });
 
     return questions;

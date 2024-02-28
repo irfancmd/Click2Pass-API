@@ -1,4 +1,13 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Chapter } from 'src/chapter/entities/chapter.entity';
+import { Curriculum } from 'src/curriculum/entities/curriculum.entity';
+import { Lesson } from 'src/lesson/entities/lesson.entity';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity({ name: 'question' })
 export class Question {
@@ -173,19 +182,22 @@ export class Question {
   })
   chapterId?: string;
 
-  @Column({
-    name: 'chapter_name',
-    type: 'varchar',
-    length: 64,
-    nullable: true,
+  @OneToOne(() => Chapter, {
+    onUpdate: 'CASCADE',
+    onDelete: 'RESTRICT',
   })
-  chapterName?: string;
+  @JoinColumn({ name: 'chapter_id', referencedColumnName: 'id' })
+  chapter: Chapter;
 
   @Column({ name: 'lesson_id', type: 'bigint', unsigned: true, nullable: true })
   lessonId?: string;
 
-  @Column({ name: 'lesson_name', type: 'varchar', length: 64, nullable: true })
-  lessonName?: string;
+  @OneToOne(() => Lesson, {
+    onUpdate: 'CASCADE',
+    onDelete: 'RESTRICT',
+  })
+  @JoinColumn({ name: 'lesson_id', referencedColumnName: 'id' })
+  lesson: Lesson;
 
   @Column({
     name: 'curriculum_id',
@@ -195,13 +207,12 @@ export class Question {
   })
   curriculumId?: string;
 
-  @Column({
-    name: 'curriculum_name',
-    type: 'varchar',
-    length: 64,
-    nullable: true,
+  @OneToOne(() => Curriculum, {
+    onUpdate: 'CASCADE',
+    onDelete: 'RESTRICT',
   })
-  curriculumName?: string;
+  @JoinColumn({ name: 'curriculum_id', referencedColumnName: 'id' })
+  curriculum: Curriculum;
 
   @Column({ name: 'creation_time', type: 'timestamp' })
   creationTime: Date;
