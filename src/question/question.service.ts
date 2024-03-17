@@ -197,7 +197,7 @@ export class QuestionService {
   }
 
   async getRandomQuestions(
-    totalExpectedQuestion: number = 10,
+    totalExpectedQuestion: number = 20,
   ): Promise<{ chapterId: string; questionId: string }[]> {
     const questionCount = await this.questionRepository.count();
 
@@ -207,7 +207,7 @@ export class QuestionService {
 
     const chapters = await this.chapterRepository.find({
       // TODO: Fix
-      where: [{ id: '15' }, { id: '16' }],
+      where: [{ id: '14' }, { id: '16' }],
     });
     const questionsPerChapter = Math.floor(
       totalExpectedQuestion / chapters.length,
