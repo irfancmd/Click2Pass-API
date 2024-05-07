@@ -205,16 +205,16 @@ export class QuestionService {
       return [];
     }
 
-    const chapters = await this.chapterRepository.find({
-      // TODO: Fix
-      where: [{ id: '14' }, { id: '16' }],
-    });
+    const chapters = await this.chapterRepository.find();
+
     const questionsPerChapter = Math.floor(
       totalExpectedQuestion / chapters.length,
     );
 
     const questionSet: Set<{ chapterId: string; questionId: string }> =
       new Set();
+
+    let totalQuestionsAdded = 0;
 
     for (const chapter of chapters) {
       const questions = await this.questionRepository.find({
@@ -242,8 +242,48 @@ export class QuestionService {
         if (!questionSet.has(questionObj)) {
           questionSet.add(questionObj);
           count++;
+          totalQuestionsAdded++;
         } else {
           continue;
+        }
+      }
+    }
+
+    // If we still haven't reached 20 questoins, just traverse though chapters and keep adding questions
+    // without considering per chapter limits.
+    if (totalQuestionsAdded < totalExpectedQuestion) {
+      for (const chapter of chapters) {
+        const questions = await this.questionRepository.find({
+          where: {
+            chapterId: chapter.id,
+          },
+          relations: ['chapter', 'lesson', 'curriculum'],
+        });
+
+        let count = 0;
+
+        while (
+          totalQuestionsAdded < totalExpectedQuestion &&
+          count < questions.length
+        ) {
+          const randomIndex = Math.floor(Math.random() * questions.length);
+
+          const questionObj = {
+            chapterId: chapter.id,
+            questionId: questions[randomIndex].id,
+          };
+
+          if (!questionSet.has(questionObj)) {
+            questionSet.add(questionObj);
+            count++;
+            totalQuestionsAdded++;
+          } else {
+            continue;
+          }
+        }
+
+        if (totalQuestionsAdded == totalExpectedQuestion) {
+          break;
         }
       }
     }
