@@ -8,9 +8,9 @@ export const dataSourceOptions: DataSourceOptions = {
   username: 'masteruser',
   password: 'WJvPy6G%rqXn',
   database: 'click2pass_primary',
-  //username: 'xpressbdnew_admin',
-  //password: 'Ha7;1nCjv&w%',
-  //database: 'xpressbdnew_primary',
+  // username: 'xpressbdnew_admin',
+  // password: 'Ha7;1nCjv&w%',
+  // database: 'xpressbdnew_primary',
   entities: ['dist/**/*.entity.js'],
   migrations: ['dist/migrations/*.js'],
 };
