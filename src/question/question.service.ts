@@ -74,6 +74,7 @@ export class QuestionService {
       return {
         status: 0,
         message: 'Question created successfully.',
+        data: question,
       };
     }
 
