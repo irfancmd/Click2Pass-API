@@ -221,12 +221,12 @@ export class QuestionService {
       return [];
     }
 
-    let questionsPerChapter;
+    let questionsPerChapter = Math.floor(
+      totalExpectedQuestion / chapters.length,
+    );
 
     if (questionCount < questionsPerChapter) {
       questionsPerChapter = Math.floor(questionCount / chapters.length);
-    } else {
-      questionsPerChapter = Math.floor(totalExpectedQuestion / chapters.length);
     }
 
     const questionSet: Set<{ chapterId: string; questionId: string }> =
