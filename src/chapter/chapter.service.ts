@@ -48,9 +48,13 @@ export class ChapterService {
     };
   }
 
+  // TODO: FIX
   async findAll(): Promise<CommonResponseDto> {
     const chapters = await this.chapterRepository.find({
       relations: ['lessons', 'curriculum'],
+      where: {
+        curriculumId: '1',
+      },
     });
 
     return {
