@@ -198,6 +198,7 @@ export class QuestionService {
   }
 
   async getRandomQuestions(
+    curriculumId: string,
     totalExpectedQuestion: number = 20,
   ): Promise<{ chapterId: string; questionId: string }[]> {
     // const questionCount = await this.questionRepository.count();
@@ -206,10 +207,9 @@ export class QuestionService {
     //   return [];
     // }
 
-    // TODO: FIX
     const chapters = await this.chapterRepository.find({
       where: {
-        curriculumId: '1',
+        curriculumId: curriculumId,
       },
     });
 
@@ -221,7 +221,7 @@ export class QuestionService {
       new Set();
     const qIds = [];
 
-    // let totalQuestionsAdded = 0;
+    let totalQuestionsAdded = 0;
 
     for (const chapter of chapters) {
       const questions = await this.questionRepository.find({
@@ -251,7 +251,7 @@ export class QuestionService {
           questionSet.add(questionObj);
           qIds.push(questionObj.questionId);
           count++;
-          // totalQuestionsAdded++;
+          totalQuestionsAdded++;
         } else {
           continue;
         }
@@ -260,42 +260,44 @@ export class QuestionService {
 
     // If we still haven't reached 20 questoins, just traverse though chapters and keep adding questions
     // without considering per chapter limits.
-    // if (totalQuestionsAdded < totalExpectedQuestion) {
-    //   for (const chapter of chapters) {
-    //     const questions = await this.questionRepository.find({
-    //       where: {
-    //         chapterId: chapter.id,
-    //       },
-    //       relations: ['chapter', 'lesson', 'curriculum'],
-    //     });
+    if (totalQuestionsAdded < totalExpectedQuestion) {
+      for (const chapter of chapters) {
+        const questions = await this.questionRepository.find({
+          where: {
+            chapterId: chapter.id,
+          },
+          relations: ['chapter', 'lesson', 'curriculum'],
+        });
 
-    //     let count = 0;
+        let count = 0;
 
-    //     while (
-    //       totalQuestionsAdded < totalExpectedQuestion &&
-    //       count < questions.length
-    //     ) {
-    //       const randomIndex = Math.floor(Math.random() * questions.length);
+        while (
+          totalQuestionsAdded < totalExpectedQuestion &&
+          count < questions.length
+        ) {
+          const randomIndex = Math.floor(Math.random() * questions.length);
 
-    //       const questionObj = {
-    //         chapterId: chapter.id,
-    //         questionId: questions[randomIndex].id,
-    //       };
+          const questionObj = {
+            chapterId: chapter.id,
+            questionId: questions[randomIndex].id,
+          };
 
-    //       if (!questionSet.has(questionObj)) {
-    //         questionSet.add(questionObj);
-    //         count++;
-    //         totalQuestionsAdded++;
-    //       } else {
-    //         continue;
-    //       }
-    //     }
+          // if (!questionSet.has(questionObj)) {
+          if (!qIds.includes(questionObj.questionId)) {
+            questionSet.add(questionObj);
+            qIds.push(questionObj.questionId);
+            count++;
+            totalQuestionsAdded++;
+          } else {
+            continue;
+          }
+        }
 
-    //     if (totalQuestionsAdded == totalExpectedQuestion) {
-    //       break;
-    //     }
-    //   }
-    // }
+        if (totalQuestionsAdded == totalExpectedQuestion) {
+          break;
+        }
+      }
+    }
 
     return Array.from(questionSet);
   }

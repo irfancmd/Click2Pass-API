@@ -14,18 +14,21 @@ export class ExamService {
     private questionService: QuestionService,
   ) {}
 
-  async create(chapterId?: string): Promise<CommonResponseDto> {
+  async create(
+    curriculumId: string,
+    chapterId?: string,
+  ): Promise<CommonResponseDto> {
     let exam = this.examRepository.create(new CreateExamDto());
 
     let questionIds: string[] = [];
 
     if (!chapterId) {
       // Get random questions
-      questionIds = (await this.questionService.getRandomQuestions()).map(
-        (questionObj) => {
-          return questionObj.questionId;
-        },
-      );
+      questionIds = (
+        await this.questionService.getRandomQuestions(curriculumId)
+      ).map((questionObj) => {
+        return questionObj.questionId;
+      });
     } else {
       questionIds = (
         await this.questionService.getChapterWiseQuestions(chapterId)

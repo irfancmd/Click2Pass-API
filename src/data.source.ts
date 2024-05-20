@@ -10,7 +10,6 @@ export const dataSourceOptions: DataSourceOptions = {
   database: 'click2pass_primary',
   // username: 'root',
   // password: 'toor',
-  // database: 'click2pass_primary',
   entities: ['dist/**/*.entity.js'],
   migrations: ['dist/migrations/*.js'],
 };
