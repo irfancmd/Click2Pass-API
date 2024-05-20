@@ -201,7 +201,11 @@ export class QuestionService {
     curriculumId: string,
     totalExpectedQuestion: number = 20,
   ): Promise<{ chapterId: string; questionId: string }[]> {
-    // const questionCount = await this.questionRepository.count();
+    const questionCount = await this.questionRepository.count({
+      where: {
+        curriculumId: curriculumId,
+      },
+    });
 
     // if (totalExpectedQuestion > questionCount) {
     //   return [];
@@ -213,9 +217,17 @@ export class QuestionService {
       },
     });
 
-    const questionsPerChapter = Math.floor(
-      totalExpectedQuestion / chapters.length,
-    );
+    if (chapters.length === 0) {
+      return [];
+    }
+
+    let questionsPerChapter;
+
+    if (questionCount < questionsPerChapter) {
+      questionsPerChapter = Math.floor(questionCount / chapters.length);
+    } else {
+      questionsPerChapter = Math.floor(totalExpectedQuestion / chapters.length);
+    }
 
     const questionSet: Set<{ chapterId: string; questionId: string }> =
       new Set();
@@ -273,7 +285,8 @@ export class QuestionService {
 
         while (
           totalQuestionsAdded < totalExpectedQuestion &&
-          count < questions.length
+          count < questions.length &&
+          qIds.length < questionCount
         ) {
           const randomIndex = Math.floor(Math.random() * questions.length);
 
