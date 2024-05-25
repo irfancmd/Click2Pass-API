@@ -312,7 +312,10 @@ export class QuestionService {
     //   }
     // }
 
-    return Array.from(questionSet);
+    const questions = Array.from(questionSet);
+    this.shuffle(questions);
+
+    return questions;
   }
 
   async getChapterWiseQuestions(chapterId: string, limit: number = 20) {
@@ -324,6 +327,25 @@ export class QuestionService {
       relations: ['chapter', 'lesson', 'curriculum'],
     });
 
+    this.shuffle(questions);
+
     return questions;
+  }
+
+  shuffle(array) {
+    let currentIndex = array.length;
+
+    // While there remain elements to shuffle...
+    while (currentIndex != 0) {
+      // Pick a remaining element...
+      const randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+
+      // And swap it with the current element.
+      [array[currentIndex], array[randomIndex]] = [
+        array[randomIndex],
+        array[currentIndex],
+      ];
+    }
   }
 }

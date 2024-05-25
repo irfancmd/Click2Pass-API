@@ -9,5 +9,6 @@ import { Question } from 'src/question/entities/question.entity';
   imports: [TypeOrmModule.forFeature([QuestionSet, Question])],
   controllers: [QuestionSetController],
   providers: [QuestionSetService],
+  exports: [QuestionSetService],
 })
 export class QuestionSetModule {}

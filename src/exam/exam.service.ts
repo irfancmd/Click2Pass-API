@@ -6,34 +6,46 @@ import { Exam } from './entities/exam.entity';
 import { Repository } from 'typeorm';
 import { CommonResponseDto } from 'src/common/dto/common-response.dto';
 import { QuestionService } from 'src/question/question.service';
+import { QuestionSetService } from 'src/question-set/question-set.service';
 
 @Injectable()
 export class ExamService {
   constructor(
     @InjectRepository(Exam) private examRepository: Repository<Exam>,
     private questionService: QuestionService,
+    private questionSetService: QuestionSetService,
   ) {}
 
   async create(
     curriculumId: string,
     chapterId?: string,
+    questionSetId?: string,
   ): Promise<CommonResponseDto> {
     let exam = this.examRepository.create(new CreateExamDto());
 
     let questionIds: string[] = [];
 
-    if (!chapterId) {
+    if (chapterId) {
+      // Get chapter wise questions
+      questionIds = (
+        await this.questionService.getChapterWiseQuestions(chapterId)
+      ).map((questionObj) => {
+        return questionObj.id;
+      });
+    } else if (questionSetId) {
+      // Get question-set questions
+      const questionSet = (await this.questionSetService.findOne(questionSetId))
+        .data;
+
+      questionIds = questionSet.questions.map((questionObj) => {
+        return questionObj.id;
+      });
+    } else {
       // Get random questions
       questionIds = (
         await this.questionService.getRandomQuestions(curriculumId)
       ).map((questionObj) => {
         return questionObj.questionId;
-      });
-    } else {
-      questionIds = (
-        await this.questionService.getChapterWiseQuestions(chapterId)
-      ).map((questionObj) => {
-        return questionObj.id;
       });
     }
 

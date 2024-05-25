@@ -17,8 +17,19 @@ export class ExamController {
 
   @Post()
   // @Body() createExamDto: CreateExamDt
-  create(@Body() body: { curriculumId: string; chapterId?: string }) {
-    return this.examService.create(body.curriculumId, body.chapterId);
+  create(
+    @Body()
+    body: {
+      curriculumId: string;
+      chapterId?: string;
+      questionSetId?: string;
+    },
+  ) {
+    return this.examService.create(
+      body.curriculumId,
+      body.chapterId,
+      body.questionSetId,
+    );
   }
 
   @Get()
