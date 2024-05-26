@@ -8,6 +8,9 @@ export class CreateQuestionSetDto {
   @IsOptional()
   readonly description?: string;
 
+  @IsString()
+  readonly curriculumId: string;
+
   @IsArray()
   readonly questionIds: string[];
 }

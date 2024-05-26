@@ -6,6 +6,7 @@ import { QuestionSet } from './entities/question-set.entity';
 import { Repository } from 'typeorm';
 import { CommonResponseDto } from 'src/common/dto/common-response.dto';
 import { Question } from 'src/question/entities/question.entity';
+import { Curriculum } from 'src/curriculum/entities/curriculum.entity';
 
 @Injectable()
 export class QuestionSetService {
@@ -14,12 +15,18 @@ export class QuestionSetService {
     private questionSetRepository: Repository<QuestionSet>,
     @InjectRepository(Question)
     private questionRepository: Repository<Question>,
+    @InjectRepository(Curriculum)
+    private curriculumRepository: Repository<Curriculum>,
   ) {}
 
   async create(
     createQuestionSetDto: CreateQuestionSetDto,
   ): Promise<CommonResponseDto> {
     let questionSet = this.questionSetRepository.create(createQuestionSetDto);
+
+    const curriculum = await this.curriculumRepository.findOneBy({
+      id: createQuestionSetDto.curriculumId,
+    });
 
     questionSet.questions = [];
 
@@ -29,7 +36,9 @@ export class QuestionSetService {
       );
     }
 
-    if (questionSet) {
+    if (questionSet && curriculum) {
+      questionSet.curriculum = curriculum;
+
       questionSet = await this.questionSetRepository.save(questionSet);
 
       return {
@@ -46,7 +55,7 @@ export class QuestionSetService {
 
   async findAll(): Promise<CommonResponseDto> {
     const questionSets = await this.questionSetRepository.find({
-      relations: ['questions'],
+      relations: ['questions', 'curriculum'],
     });
 
     return {
@@ -60,7 +69,7 @@ export class QuestionSetService {
       where: {
         id,
       },
-      relations: ['questions'],
+      relations: ['questions', 'curriculum'],
     });
 
     if (questionSet) {
@@ -96,6 +105,16 @@ export class QuestionSetService {
     }
 
     if (updatedQuestionSet) {
+      if (updateQuestionSetDto.curriculumId) {
+        const curriculum = await this.curriculumRepository.findOneBy({
+          id: updateQuestionSetDto.curriculumId,
+        });
+
+        if (curriculum) {
+          updatedQuestionSet.curriculum = curriculum;
+        }
+      }
+
       updatedQuestionSet =
         await this.questionSetRepository.save(updatedQuestionSet);
 

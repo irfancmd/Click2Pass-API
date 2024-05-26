@@ -1,9 +1,12 @@
+import { Curriculum } from 'src/curriculum/entities/curriculum.entity';
 import { Question } from 'src/question/entities/question.entity';
 import {
   Column,
   Entity,
+  JoinColumn,
   JoinTable,
   ManyToMany,
+  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -20,6 +23,13 @@ export class QuestionSet {
 
   @Column({ name: 'creation_time', type: 'timestamp' })
   creationTime: Date;
+
+  @Column({ name: 'curriculum_id', type: 'bigint', unsigned: true })
+  curriculumId: string;
+
+  @ManyToOne(() => Curriculum)
+  @JoinColumn({ name: 'curriculum_id', referencedColumnName: 'id' })
+  curriculum: Curriculum;
 
   @ManyToMany(() => Question)
   @JoinTable({
