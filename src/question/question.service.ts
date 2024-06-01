@@ -251,7 +251,7 @@ export class QuestionService {
       }
 
       while (count < limit) {
-        const randomIndex = Math.floor(Math.random() * limit);
+        const randomIndex = Math.floor(Math.random() * questions.length);
 
         const questionObj = {
           chapterId: chapter.id,
