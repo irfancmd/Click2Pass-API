@@ -44,4 +44,7 @@ export class QuestionSet {
     },
   })
   questions: Question[];
+
+  @Column({ name: 'driving_set_type', type: 'int', default: 0 })
+  drivingSetType: number;
 }
