@@ -8,6 +8,7 @@ import { CommonResponseDto } from 'src/common/dto/common-response.dto';
 import { Lesson } from 'src/lesson/entities/lesson.entity';
 import { Chapter } from 'src/chapter/entities/chapter.entity';
 import { Curriculum } from 'src/curriculum/entities/curriculum.entity';
+import { QuestionSet } from 'src/question-set/entities/question-set.entity';
 
 @Injectable()
 export class QuestionService {
@@ -20,6 +21,8 @@ export class QuestionService {
     private readonly chapterRepository: Repository<Chapter>,
     @InjectRepository(Curriculum)
     private readonly curriculumRepository: Repository<Curriculum>,
+    @InjectRepository(QuestionSet)
+    private readonly questionSetRepository: Repository<QuestionSet>,
   ) {}
 
   async create(
@@ -87,6 +90,7 @@ export class QuestionService {
   async findAll(): Promise<CommonResponseDto> {
     const questions = await this.questionRepository.find({
       relations: ['chapter', 'lesson', 'curriculum'],
+      order: { curriculum: 'ASC', chapter: 'ASC' },
     });
 
     return {
@@ -314,6 +318,81 @@ export class QuestionService {
 
     const questions = Array.from(questionSet);
     this.shuffle(questions);
+
+    return questions;
+  }
+
+  async getRandomQuestionsForDriving(): Promise<
+    { chapterId: string; questionId: string }[]
+  > {
+    const roadSignQuestionSet = await this.questionSetRepository.findOne({
+      where: { drivingSetType: 1 },
+      relations: ['questions', 'curriculum'],
+    });
+
+    const rulesOfTheRoadQuestionSet = await this.questionSetRepository.findOne({
+      where: { drivingSetType: 2 },
+      relations: ['questions', 'curriculum'],
+    });
+
+    if (!roadSignQuestionSet || !rulesOfTheRoadQuestionSet) {
+      return [];
+    }
+
+    const questionSet: Set<{ chapterId: string; questionId: string }> =
+      new Set();
+    const qIds = [];
+
+    let roadSignQuestionRemaining = 20;
+    if (roadSignQuestionSet.questions.length < 20) {
+      roadSignQuestionRemaining = roadSignQuestionSet.questions.length;
+    }
+
+    while (roadSignQuestionRemaining > 0) {
+      const randomIndex = Math.floor(
+        Math.random() * roadSignQuestionSet.questions.length,
+      );
+
+      const questionObj = {
+        chapterId: roadSignQuestionSet.id,
+        questionId: roadSignQuestionSet.questions[randomIndex].id,
+      };
+
+      if (!qIds.includes(questionObj.questionId)) {
+        questionSet.add(questionObj);
+        qIds.push(questionObj.questionId);
+        --roadSignQuestionRemaining;
+      } else {
+        continue;
+      }
+    }
+
+    let rulesOfTheRoadQuestionRemaining = 20;
+    if (rulesOfTheRoadQuestionSet.questions.length < 20) {
+      rulesOfTheRoadQuestionRemaining =
+        rulesOfTheRoadQuestionSet.questions.length;
+    }
+
+    while (rulesOfTheRoadQuestionRemaining > 0) {
+      const randomIndex = Math.floor(
+        Math.random() * rulesOfTheRoadQuestionSet.questions.length,
+      );
+
+      const questionObj = {
+        chapterId: rulesOfTheRoadQuestionSet.id,
+        questionId: rulesOfTheRoadQuestionSet.questions[randomIndex].id,
+      };
+
+      if (!qIds.includes(questionObj.questionId)) {
+        questionSet.add(questionObj);
+        qIds.push(questionObj.questionId);
+        --rulesOfTheRoadQuestionRemaining;
+      } else {
+        continue;
+      }
+    }
+
+    const questions = Array.from(questionSet);
 
     return questions;
   }

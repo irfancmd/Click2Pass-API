@@ -42,11 +42,20 @@ export class ExamService {
       });
     } else {
       // Get random questions
-      questionIds = (
-        await this.questionService.getRandomQuestions(curriculumId)
-      ).map((questionObj) => {
-        return questionObj.questionId;
-      });
+      if (curriculumId == '5') {
+        // Driving
+        questionIds = (
+          await this.questionService.getRandomQuestionsForDriving()
+        ).map((questionObj) => {
+          return questionObj.questionId;
+        });
+      } else {
+        questionIds = (
+          await this.questionService.getRandomQuestions(curriculumId)
+        ).map((questionObj) => {
+          return questionObj.questionId;
+        });
+      }
     }
 
     if (questionIds.length == 0) {
