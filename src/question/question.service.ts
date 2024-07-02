@@ -90,7 +90,7 @@ export class QuestionService {
   async findAll(): Promise<CommonResponseDto> {
     const questions = await this.questionRepository.find({
       relations: ['chapter', 'lesson', 'curriculum'],
-      order: { curriculum: 'ASC', chapter: 'ASC' },
+      order: { curriculumId: 'ASC', chapterId: 'ASC' },
     });
 
     return {
