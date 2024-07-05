@@ -325,17 +325,34 @@ export class QuestionService {
   async getRandomQuestionsForDriving(): Promise<
     { chapterId: string; questionId: string }[]
   > {
-    const roadSignQuestionSet = await this.questionSetRepository.findOne({
+    let totalRoadSignQuestionCount = 0;
+
+    const roadSignQuestionSets = await this.questionSetRepository.find({
       where: { drivingSetType: 1 },
       relations: ['questions', 'curriculum'],
     });
 
-    const rulesOfTheRoadQuestionSet = await this.questionSetRepository.findOne({
+    roadSignQuestionSets.forEach(s => {
+      totalRoadSignQuestionCount += s.questions.length;
+    });
+
+    let totalRulesOfRoadQuestionCount = 0;
+
+    const rulesOfTheRoadQuestionSets = await this.questionSetRepository.find({
       where: { drivingSetType: 2 },
       relations: ['questions', 'curriculum'],
     });
 
-    if (!roadSignQuestionSet || !rulesOfTheRoadQuestionSet) {
+    rulesOfTheRoadQuestionSets.forEach(s => {
+      totalRulesOfRoadQuestionCount += s.questions.length;
+    });
+
+    if (
+      !roadSignQuestionSets ||
+      !rulesOfTheRoadQuestionSets ||
+      roadSignQuestionSets.length == 0 ||
+      rulesOfTheRoadQuestionSets.length == 0
+    ) {
       return [];
     }
 
@@ -343,55 +360,78 @@ export class QuestionService {
       new Set();
     const qIds = [];
 
-    let roadSignQuestionRemaining = 20;
-    if (roadSignQuestionSet.questions.length < 20) {
-      roadSignQuestionRemaining = roadSignQuestionSet.questions.length;
+    // First 20 question will come from road signs.
+    let questionsPerRoadSignSet = Math.floor(
+      20 / roadSignQuestionSets.length,
+    );
+
+    if (totalRoadSignQuestionCount < questionsPerRoadSignSet) {
+      questionsPerRoadSignSet = Math.floor(totalRoadSignQuestionCount / roadSignQuestionSets.length);
     }
 
-    while (roadSignQuestionRemaining > 0) {
-      const randomIndex = Math.floor(
-        Math.random() * roadSignQuestionSet.questions.length,
-      );
+    for (const set of roadSignQuestionSets) {
+      let count = 0;
+      let limit = questionsPerRoadSignSet;
 
-      const questionObj = {
-        chapterId: roadSignQuestionSet.id,
-        questionId: roadSignQuestionSet.questions[randomIndex].id,
-      };
+      if (set.questions.length < limit) {
+        limit = set.questions.length;
+      }
 
-      if (!qIds.includes(questionObj.questionId)) {
-        questionSet.add(questionObj);
-        qIds.push(questionObj.questionId);
-        --roadSignQuestionRemaining;
-      } else {
-        continue;
+      while (count < limit) {
+        const randomIndex = Math.floor(Math.random() * set.questions.length);
+
+        const questionObj = {
+          chapterId: '5',
+          questionId: set.questions[randomIndex].id,
+        };
+
+        // if (!questionSet.has(questionObj)) {
+        if (!qIds.includes(questionObj.questionId)) {
+          questionSet.add(questionObj);
+          qIds.push(questionObj.questionId);
+          count++;
+        } else {
+          continue;
+        }
       }
     }
 
-    let rulesOfTheRoadQuestionRemaining = 20;
-    if (rulesOfTheRoadQuestionSet.questions.length < 20) {
-      rulesOfTheRoadQuestionRemaining =
-        rulesOfTheRoadQuestionSet.questions.length;
+    // Last 20 question will come from rules of the road.
+    let questionsPerRulesOfRoadSet = Math.floor(
+      20 / rulesOfTheRoadQuestionSets.length,
+    );
+
+    if (totalRulesOfRoadQuestionCount < questionsPerRulesOfRoadSet) {
+      questionsPerRulesOfRoadSet = Math.floor(totalRulesOfRoadQuestionCount / rulesOfTheRoadQuestionSets.length);
     }
 
-    while (rulesOfTheRoadQuestionRemaining > 0) {
-      const randomIndex = Math.floor(
-        Math.random() * rulesOfTheRoadQuestionSet.questions.length,
-      );
+    for (const set of rulesOfTheRoadQuestionSets) {
+      let count = 0;
+      let limit = questionsPerRulesOfRoadSet;
 
-      const questionObj = {
-        chapterId: rulesOfTheRoadQuestionSet.id,
-        questionId: rulesOfTheRoadQuestionSet.questions[randomIndex].id,
-      };
+      if (set.questions.length < limit) {
+        limit = set.questions.length;
+      }
 
-      if (!qIds.includes(questionObj.questionId)) {
-        questionSet.add(questionObj);
-        qIds.push(questionObj.questionId);
-        --rulesOfTheRoadQuestionRemaining;
-      } else {
-        continue;
+      while (count < limit) {
+        const randomIndex = Math.floor(Math.random() * set.questions.length);
+
+        const questionObj = {
+          chapterId: '5',
+          questionId: set.questions[randomIndex].id,
+        };
+
+        // if (!questionSet.has(questionObj)) {
+        if (!qIds.includes(questionObj.questionId)) {
+          questionSet.add(questionObj);
+          qIds.push(questionObj.questionId);
+          count++;
+        } else {
+          continue;
+        }
       }
     }
-
+    
     const questions = Array.from(questionSet);
 
     return questions;
