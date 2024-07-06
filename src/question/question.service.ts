@@ -325,7 +325,7 @@ export class QuestionService {
   async getRandomQuestionsForDriving(): Promise<
     { chapterId: string; questionId: string }[]
   > {
-    let totalRoadSignQuestionCount = 0;
+    const roadSignQuestions = [];
 
     const roadSignQuestionSets = await this.questionSetRepository.find({
       where: { drivingSetType: 1 },
@@ -333,10 +333,10 @@ export class QuestionService {
     });
 
     roadSignQuestionSets.forEach((s) => {
-      totalRoadSignQuestionCount += s.questions.length;
+      roadSignQuestions.push(...s.questions);
     });
 
-    let totalRulesOfRoadQuestionCount = 0;
+    const rulesOfRoadQuestions = [];
 
     const rulesOfTheRoadQuestionSets = await this.questionSetRepository.find({
       where: { drivingSetType: 2 },
@@ -344,15 +344,10 @@ export class QuestionService {
     });
 
     rulesOfTheRoadQuestionSets.forEach((s) => {
-      totalRulesOfRoadQuestionCount += s.questions.length;
+      rulesOfRoadQuestions.push(...s.questions);
     });
 
-    if (
-      !roadSignQuestionSets ||
-      !rulesOfTheRoadQuestionSets ||
-      roadSignQuestionSets.length == 0 ||
-      rulesOfTheRoadQuestionSets.length == 0
-    ) {
+    if (roadSignQuestions.length == 0 || rulesOfRoadQuestions.length == 0) {
       return [];
     }
 
@@ -361,76 +356,46 @@ export class QuestionService {
     const qIds = [];
 
     // First 20 question will come from road signs.
-    let questionsPerRoadSignSet = Math.floor(20 / roadSignQuestionSets.length);
+    let roadSignRemaining =
+      roadSignQuestions.length < 20 ? roadSignQuestions.length : 20;
 
-    if (totalRoadSignQuestionCount < questionsPerRoadSignSet) {
-      questionsPerRoadSignSet = Math.floor(
-        totalRoadSignQuestionCount / roadSignQuestionSets.length,
-      );
-    }
+    while (roadSignRemaining > 0) {
+      const randomIndex = Math.floor(Math.random() * roadSignQuestions.length);
 
-    for (const set of roadSignQuestionSets) {
-      let count = 0;
-      let limit = questionsPerRoadSignSet;
+      const questionObj = {
+        chapterId: roadSignQuestions[randomIndex],
+        questionId: roadSignQuestions[randomIndex].id,
+      };
 
-      if (set.questions.length < limit) {
-        limit = set.questions.length;
-      }
-
-      while (count < limit) {
-        const randomIndex = Math.floor(Math.random() * set.questions.length);
-
-        const questionObj = {
-          chapterId: '5',
-          questionId: set.questions[randomIndex].id,
-        };
-
-        // if (!questionSet.has(questionObj)) {
-        if (!qIds.includes(questionObj.questionId)) {
-          questionSet.add(questionObj);
-          qIds.push(questionObj.questionId);
-          count++;
-        } else {
-          continue;
-        }
+      if (!qIds.includes(questionObj.questionId)) {
+        questionSet.add(questionObj);
+        qIds.push(questionObj.questionId);
+        --roadSignRemaining;
+      } else {
+        continue;
       }
     }
 
     // Last 20 question will come from rules of the road.
-    let questionsPerRulesOfRoadSet = Math.floor(
-      20 / rulesOfTheRoadQuestionSets.length,
-    );
+    let rulesOfRoadRemaining =
+      rulesOfRoadQuestions.length < 20 ? rulesOfRoadQuestions.length : 20;
 
-    if (totalRulesOfRoadQuestionCount < questionsPerRulesOfRoadSet) {
-      questionsPerRulesOfRoadSet = Math.floor(
-        totalRulesOfRoadQuestionCount / rulesOfTheRoadQuestionSets.length,
+    while (rulesOfRoadRemaining > 0) {
+      const randomIndex = Math.floor(
+        Math.random() * rulesOfRoadQuestions.length,
       );
-    }
 
-    for (const set of rulesOfTheRoadQuestionSets) {
-      let count = 0;
-      let limit = questionsPerRulesOfRoadSet;
+      const questionObj = {
+        chapterId: rulesOfRoadQuestions[randomIndex].chapterId,
+        questionId: rulesOfRoadQuestions[randomIndex].id,
+      };
 
-      if (set.questions.length < limit) {
-        limit = set.questions.length;
-      }
-
-      while (count < limit) {
-        const randomIndex = Math.floor(Math.random() * set.questions.length);
-
-        const questionObj = {
-          chapterId: '5',
-          questionId: set.questions[randomIndex].id,
-        };
-
-        // if (!questionSet.has(questionObj)) {
-        if (!qIds.includes(questionObj.questionId)) {
-          questionSet.add(questionObj);
-          qIds.push(questionObj.questionId);
-          count++;
-        } else {
-          continue;
-        }
+      if (!qIds.includes(questionObj.questionId)) {
+        questionSet.add(questionObj);
+        qIds.push(questionObj.questionId);
+        --rulesOfRoadRemaining;
+      } else {
+        continue;
       }
     }
 
