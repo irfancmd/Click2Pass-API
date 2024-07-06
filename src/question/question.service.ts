@@ -332,7 +332,7 @@ export class QuestionService {
       relations: ['questions', 'curriculum'],
     });
 
-    roadSignQuestionSets.forEach(s => {
+    roadSignQuestionSets.forEach((s) => {
       totalRoadSignQuestionCount += s.questions.length;
     });
 
@@ -343,7 +343,7 @@ export class QuestionService {
       relations: ['questions', 'curriculum'],
     });
 
-    rulesOfTheRoadQuestionSets.forEach(s => {
+    rulesOfTheRoadQuestionSets.forEach((s) => {
       totalRulesOfRoadQuestionCount += s.questions.length;
     });
 
@@ -361,12 +361,12 @@ export class QuestionService {
     const qIds = [];
 
     // First 20 question will come from road signs.
-    let questionsPerRoadSignSet = Math.floor(
-      20 / roadSignQuestionSets.length,
-    );
+    let questionsPerRoadSignSet = Math.floor(20 / roadSignQuestionSets.length);
 
     if (totalRoadSignQuestionCount < questionsPerRoadSignSet) {
-      questionsPerRoadSignSet = Math.floor(totalRoadSignQuestionCount / roadSignQuestionSets.length);
+      questionsPerRoadSignSet = Math.floor(
+        totalRoadSignQuestionCount / roadSignQuestionSets.length,
+      );
     }
 
     for (const set of roadSignQuestionSets) {
@@ -402,7 +402,9 @@ export class QuestionService {
     );
 
     if (totalRulesOfRoadQuestionCount < questionsPerRulesOfRoadSet) {
-      questionsPerRulesOfRoadSet = Math.floor(totalRulesOfRoadQuestionCount / rulesOfTheRoadQuestionSets.length);
+      questionsPerRulesOfRoadSet = Math.floor(
+        totalRulesOfRoadQuestionCount / rulesOfTheRoadQuestionSets.length,
+      );
     }
 
     for (const set of rulesOfTheRoadQuestionSets) {
@@ -431,18 +433,17 @@ export class QuestionService {
         }
       }
     }
-    
+
     const questions = Array.from(questionSet);
 
     return questions;
   }
 
-  async getChapterWiseQuestions(chapterId: string, limit: number = 20) {
+  async getChapterWiseQuestions(chapterId: string) {
     const questions = await this.questionRepository.find({
       where: {
         chapterId: chapterId,
       },
-      take: limit,
       relations: ['chapter', 'lesson', 'curriculum'],
     });
 

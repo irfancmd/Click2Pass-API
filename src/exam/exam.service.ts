@@ -21,79 +21,87 @@ export class ExamService {
     chapterId?: string,
     questionSetId?: string,
   ): Promise<CommonResponseDto> {
-    let exam = this.examRepository.create(new CreateExamDto());
+    try {
+      let exam = this.examRepository.create(new CreateExamDto());
 
-    let questionIds: string[] = [];
+      let questionIds: string[] = [];
 
-    if (chapterId) {
-      // Get chapter wise questions
-      questionIds = (
-        await this.questionService.getChapterWiseQuestions(chapterId)
-      ).map((questionObj) => {
-        return questionObj.id;
-      });
-    } else if (questionSetId) {
-      // Get question-set questions
-      const questionSet = (await this.questionSetService.findOne(questionSetId))
-        .data;
-
-      questionIds = questionSet.questions.map((questionObj) => {
-        return questionObj.id;
-      });
-    } else {
-      // Get random questions
-      if (curriculumId == '5') {
-        // Driving
+      if (chapterId) {
+        // Get chapter wise questions
         questionIds = (
-          await this.questionService.getRandomQuestionsForDriving()
+          await this.questionService.getChapterWiseQuestions(chapterId)
         ).map((questionObj) => {
-          return questionObj.questionId;
+          return questionObj.id;
+        });
+      } else if (questionSetId) {
+        // Get question-set questions
+        const questionSet = (
+          await this.questionSetService.findOne(questionSetId)
+        ).data;
+
+        questionIds = questionSet.questions.map((questionObj) => {
+          return questionObj.id;
         });
       } else {
-        questionIds = (
-          await this.questionService.getRandomQuestions(curriculumId)
-        ).map((questionObj) => {
-          return questionObj.questionId;
-        });
+        // Get random questions
+        if (curriculumId == '5') {
+          // Driving
+          questionIds = (
+            await this.questionService.getRandomQuestionsForDriving()
+          ).map((questionObj) => {
+            return questionObj.questionId;
+          });
+        } else {
+          questionIds = (
+            await this.questionService.getRandomQuestions(curriculumId)
+          ).map((questionObj) => {
+            return questionObj.questionId;
+          });
+        }
       }
-    }
 
-    if (questionIds.length == 0) {
+      if (questionIds.length == 0) {
+        return {
+          status: 1,
+          message: "Couldn't create exam.",
+        };
+      }
+
+      exam.achievedScore = 0;
+      exam.totalScore = questionIds.length;
+      exam.questionCount = questionIds.length;
+      exam.startTime = new Date();
+      exam.testCompleted = false;
+      exam.examineeId = '1';
+
+      const endTime = new Date();
+      endTime.setMinutes(endTime.getMinutes() + 20);
+      exam.endTime = endTime;
+
+      for (let i = 0; i < questionIds.length; i++) {
+        exam[`q${i + 1}Id`] = questionIds[i];
+      }
+
+      if (exam) {
+        exam = await this.examRepository.save(exam);
+
+        return {
+          status: 0,
+          message: 'Exam created successfully.',
+          data: exam.id,
+        };
+      }
+
       return {
         status: 1,
         message: "Couldn't create exam.",
       };
-    }
-
-    exam.achievedScore = 0;
-    exam.totalScore = questionIds.length;
-    exam.questionCount = questionIds.length;
-    exam.startTime = new Date();
-    exam.testCompleted = false;
-    exam.examineeId = '1';
-
-    const endTime = new Date();
-    endTime.setMinutes(endTime.getMinutes() + 20);
-    exam.endTime = endTime;
-
-    for (let i = 0; i < questionIds.length; i++) {
-      exam[`q${i + 1}Id`] = questionIds[i];
-    }
-
-    if (exam) {
-      exam = await this.examRepository.save(exam);
-
+    } catch (e) {
       return {
-        status: 0,
-        message: 'Exam created successfully.',
-        data: exam.id,
+        status: 1,
+        message: e,
       };
     }
-
-    return {
-      status: 1,
-      message: "Couldn't create exam.",
-    };
   }
 
   async findAll(): Promise<CommonResponseDto> {
