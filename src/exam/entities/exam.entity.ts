@@ -18,7 +18,7 @@ export class Exam {
   @Column({ type: 'varchar', length: 256, nullable: true })
   q1Ans?: string;
 
-  @OneToOne(() => Question, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
+  @OneToOne(() => Question, { onUpdate: 'CASCADE', onDelete: 'SET NULL' })
   @JoinColumn({ name: 'q1Id', referencedColumnName: 'id' })
   q1: Question;
 
@@ -28,7 +28,7 @@ export class Exam {
   @Column({ type: 'varchar', length: 256, nullable: true })
   q2Ans?: string;
 
-  @OneToOne(() => Question, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
+  @OneToOne(() => Question, { onUpdate: 'CASCADE', onDelete: 'SET NULL' })
   @JoinColumn({ name: 'q2Id', referencedColumnName: 'id' })
   q2: Question;
 
@@ -38,7 +38,7 @@ export class Exam {
   @Column({ type: 'varchar', length: 256, nullable: true })
   q3Ans?: string;
 
-  @OneToOne(() => Question, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
+  @OneToOne(() => Question, { onUpdate: 'CASCADE', onDelete: 'SET NULL' })
   @JoinColumn({ name: 'q3Id', referencedColumnName: 'id' })
   q3: Question;
 
@@ -48,7 +48,7 @@ export class Exam {
   @Column({ type: 'varchar', length: 256, nullable: true })
   q4Ans?: string;
 
-  @OneToOne(() => Question, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
+  @OneToOne(() => Question, { onUpdate: 'CASCADE', onDelete: 'SET NULL' })
   @JoinColumn({ name: 'q4Id', referencedColumnName: 'id' })
   q4: Question;
 
@@ -58,7 +58,7 @@ export class Exam {
   @Column({ type: 'varchar', length: 256, nullable: true })
   q5Ans?: string;
 
-  @OneToOne(() => Question, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
+  @OneToOne(() => Question, { onUpdate: 'CASCADE', onDelete: 'SET NULL' })
   @JoinColumn({ name: 'q5Id', referencedColumnName: 'id' })
   q5: Question;
 
@@ -68,7 +68,7 @@ export class Exam {
   @Column({ type: 'varchar', length: 256, nullable: true })
   q6Ans?: string;
 
-  @OneToOne(() => Question, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
+  @OneToOne(() => Question, { onUpdate: 'CASCADE', onDelete: 'SET NULL' })
   @JoinColumn({ name: 'q6Id', referencedColumnName: 'id' })
   q6: Question;
 
@@ -78,7 +78,7 @@ export class Exam {
   @Column({ type: 'varchar', length: 256, nullable: true })
   q7Ans?: string;
 
-  @OneToOne(() => Question, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
+  @OneToOne(() => Question, { onUpdate: 'CASCADE', onDelete: 'SET NULL' })
   @JoinColumn({ name: 'q7Id', referencedColumnName: 'id' })
   q7: Question;
 
@@ -88,7 +88,7 @@ export class Exam {
   @Column({ type: 'varchar', length: 256, nullable: true })
   q8Ans?: string;
 
-  @OneToOne(() => Question, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
+  @OneToOne(() => Question, { onUpdate: 'CASCADE', onDelete: 'SET NULL' })
   @JoinColumn({ name: 'q8Id', referencedColumnName: 'id' })
   q8: Question;
 
@@ -98,7 +98,7 @@ export class Exam {
   @Column({ type: 'varchar', length: 256, nullable: true })
   q9Ans?: string;
 
-  @OneToOne(() => Question, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
+  @OneToOne(() => Question, { onUpdate: 'CASCADE', onDelete: 'SET NULL' })
   @JoinColumn({ name: 'q9Id', referencedColumnName: 'id' })
   q9: Question;
 
@@ -108,7 +108,7 @@ export class Exam {
   @Column({ type: 'varchar', length: 256, nullable: true })
   q10Ans?: string;
 
-  @OneToOne(() => Question, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
+  @OneToOne(() => Question, { onUpdate: 'CASCADE', onDelete: 'SET NULL' })
   @JoinColumn({ name: 'q10Id', referencedColumnName: 'id' })
   q10: Question;
 
@@ -118,7 +118,7 @@ export class Exam {
   @Column({ type: 'varchar', length: 256, nullable: true })
   q11Ans?: string;
 
-  @OneToOne(() => Question, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
+  @OneToOne(() => Question, { onUpdate: 'CASCADE', onDelete: 'SET NULL' })
   @JoinColumn({ name: 'q11Id', referencedColumnName: 'id' })
   q11: Question;
 
@@ -128,7 +128,7 @@ export class Exam {
   @Column({ type: 'varchar', length: 256, nullable: true })
   q12Ans?: string;
 
-  @OneToOne(() => Question, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
+  @OneToOne(() => Question, { onUpdate: 'CASCADE', onDelete: 'SET NULL' })
   @JoinColumn({ name: 'q12Id', referencedColumnName: 'id' })
   q12: Question;
 
@@ -138,7 +138,7 @@ export class Exam {
   @Column({ type: 'varchar', length: 256, nullable: true })
   q13Ans?: string;
 
-  @OneToOne(() => Question, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
+  @OneToOne(() => Question, { onUpdate: 'CASCADE', onDelete: 'SET NULL' })
   @JoinColumn({ name: 'q13Id', referencedColumnName: 'id' })
   q13: Question;
 
@@ -148,7 +148,7 @@ export class Exam {
   @Column({ type: 'varchar', length: 256, nullable: true })
   q14Ans?: string;
 
-  @OneToOne(() => Question, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
+  @OneToOne(() => Question, { onUpdate: 'CASCADE', onDelete: 'SET NULL' })
   @JoinColumn({ name: 'q14Id', referencedColumnName: 'id' })
   q14: Question;
 
@@ -158,7 +158,7 @@ export class Exam {
   @Column({ type: 'varchar', length: 256, nullable: true })
   q15Ans?: string;
 
-  @OneToOne(() => Question, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
+  @OneToOne(() => Question, { onUpdate: 'CASCADE', onDelete: 'SET NULL' })
   @JoinColumn({ name: 'q15Id', referencedColumnName: 'id' })
   q15: Question;
 
@@ -168,7 +168,7 @@ export class Exam {
   @Column({ type: 'varchar', length: 256, nullable: true })
   q16Ans?: string;
 
-  @OneToOne(() => Question, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
+  @OneToOne(() => Question, { onUpdate: 'CASCADE', onDelete: 'SET NULL' })
   @JoinColumn({ name: 'q16Id', referencedColumnName: 'id' })
   q16: Question;
 
@@ -178,7 +178,7 @@ export class Exam {
   @Column({ type: 'varchar', length: 256, nullable: true })
   q17Ans?: string;
 
-  @OneToOne(() => Question, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
+  @OneToOne(() => Question, { onUpdate: 'CASCADE', onDelete: 'SET NULL' })
   @JoinColumn({ name: 'q17Id', referencedColumnName: 'id' })
   q17: Question;
 
@@ -188,7 +188,7 @@ export class Exam {
   @Column({ type: 'varchar', length: 256, nullable: true })
   q18Ans?: string;
 
-  @OneToOne(() => Question, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
+  @OneToOne(() => Question, { onUpdate: 'CASCADE', onDelete: 'SET NULL' })
   @JoinColumn({ name: 'q18Id', referencedColumnName: 'id' })
   q18: Question;
 
@@ -198,7 +198,7 @@ export class Exam {
   @Column({ type: 'varchar', length: 256, nullable: true })
   q19Ans?: string;
 
-  @OneToOne(() => Question, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
+  @OneToOne(() => Question, { onUpdate: 'CASCADE', onDelete: 'SET NULL' })
   @JoinColumn({ name: 'q19Id', referencedColumnName: 'id' })
   q19: Question;
 
@@ -208,9 +208,209 @@ export class Exam {
   @Column({ type: 'varchar', length: 256, nullable: true })
   q20Ans?: string;
 
-  @OneToOne(() => Question, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
+  @OneToOne(() => Question, { onUpdate: 'CASCADE', onDelete: 'SET NULL' })
   @JoinColumn({ name: 'q20Id', referencedColumnName: 'id' })
   q20: Question;
+
+  @Column({ type: 'bigint', unsigned: true, nullable: true })
+  q21Id?: string;
+
+  @Column({ type: 'varchar', length: 256, nullable: true })
+  q21Ans?: string;
+
+  @OneToOne(() => Question, { onUpdate: 'CASCADE', onDelete: 'SET NULL' })
+  @JoinColumn({ name: 'q21Id', referencedColumnName: 'id' })
+  q21: Question;
+
+  @Column({ type: 'bigint', unsigned: true, nullable: true })
+  q22Id?: string;
+
+  @Column({ type: 'varchar', length: 256, nullable: true })
+  q22Ans?: string;
+
+  @OneToOne(() => Question, { onUpdate: 'CASCADE', onDelete: 'SET NULL' })
+  @JoinColumn({ name: 'q22Id', referencedColumnName: 'id' })
+  q22: Question;
+
+  @Column({ type: 'bigint', unsigned: true, nullable: true })
+  q23Id?: string;
+
+  @Column({ type: 'varchar', length: 256, nullable: true })
+  q23Ans?: string;
+
+  @OneToOne(() => Question, { onUpdate: 'CASCADE', onDelete: 'SET NULL' })
+  @JoinColumn({ name: 'q23Id', referencedColumnName: 'id' })
+  q23: Question;
+
+  @Column({ type: 'bigint', unsigned: true, nullable: true })
+  q24Id?: string;
+
+  @Column({ type: 'varchar', length: 256, nullable: true })
+  q24Ans?: string;
+
+  @OneToOne(() => Question, { onUpdate: 'CASCADE', onDelete: 'SET NULL' })
+  @JoinColumn({ name: 'q24Id', referencedColumnName: 'id' })
+  q24: Question;
+
+  @Column({ type: 'bigint', unsigned: true, nullable: true })
+  q25Id?: string;
+
+  @Column({ type: 'varchar', length: 256, nullable: true })
+  q25Ans?: string;
+
+  @OneToOne(() => Question, { onUpdate: 'CASCADE', onDelete: 'SET NULL' })
+  @JoinColumn({ name: 'q25Id', referencedColumnName: 'id' })
+  q25: Question;
+
+  @Column({ type: 'bigint', unsigned: true, nullable: true })
+  q26Id?: string;
+
+  @Column({ type: 'varchar', length: 256, nullable: true })
+  q26Ans?: string;
+
+  @OneToOne(() => Question, { onUpdate: 'CASCADE', onDelete: 'SET NULL' })
+  @JoinColumn({ name: 'q26Id', referencedColumnName: 'id' })
+  q26: Question;
+
+  @Column({ type: 'bigint', unsigned: true, nullable: true })
+  q27Id?: string;
+
+  @Column({ type: 'varchar', length: 256, nullable: true })
+  q27Ans?: string;
+
+  @OneToOne(() => Question, { onUpdate: 'CASCADE', onDelete: 'SET NULL' })
+  @JoinColumn({ name: 'q27Id', referencedColumnName: 'id' })
+  q27: Question;
+
+  @Column({ type: 'bigint', unsigned: true, nullable: true })
+  q28Id?: string;
+
+  @Column({ type: 'varchar', length: 256, nullable: true })
+  q28Ans?: string;
+
+  @OneToOne(() => Question, { onUpdate: 'CASCADE', onDelete: 'SET NULL' })
+  @JoinColumn({ name: 'q28Id', referencedColumnName: 'id' })
+  q28: Question;
+
+  @Column({ type: 'bigint', unsigned: true, nullable: true })
+  q29Id?: string;
+
+  @Column({ type: 'varchar', length: 256, nullable: true })
+  q29Ans?: string;
+
+  @OneToOne(() => Question, { onUpdate: 'CASCADE', onDelete: 'SET NULL' })
+  @JoinColumn({ name: 'q29Id', referencedColumnName: 'id' })
+  q29: Question;
+
+  @Column({ type: 'bigint', unsigned: true, nullable: true })
+  q30Id?: string;
+
+  @Column({ type: 'varchar', length: 256, nullable: true })
+  q30Ans?: string;
+
+  @OneToOne(() => Question, { onUpdate: 'CASCADE', onDelete: 'SET NULL' })
+  @JoinColumn({ name: 'q30Id', referencedColumnName: 'id' })
+  q30: Question;
+
+  @Column({ type: 'bigint', unsigned: true, nullable: true })
+  q31Id?: string;
+
+  @Column({ type: 'varchar', length: 256, nullable: true })
+  q31Ans?: string;
+
+  @OneToOne(() => Question, { onUpdate: 'CASCADE', onDelete: 'SET NULL' })
+  @JoinColumn({ name: 'q31Id', referencedColumnName: 'id' })
+  q31: Question;
+
+  @Column({ type: 'bigint', unsigned: true, nullable: true })
+  q32Id?: string;
+
+  @Column({ type: 'varchar', length: 256, nullable: true })
+  q32Ans?: string;
+
+  @OneToOne(() => Question, { onUpdate: 'CASCADE', onDelete: 'SET NULL' })
+  @JoinColumn({ name: 'q32Id', referencedColumnName: 'id' })
+  q32: Question;
+
+  @Column({ type: 'bigint', unsigned: true, nullable: true })
+  q33Id?: string;
+
+  @Column({ type: 'varchar', length: 256, nullable: true })
+  q33Ans?: string;
+
+  @OneToOne(() => Question, { onUpdate: 'CASCADE', onDelete: 'SET NULL' })
+  @JoinColumn({ name: 'q33Id', referencedColumnName: 'id' })
+  q33: Question;
+
+  @Column({ type: 'bigint', unsigned: true, nullable: true })
+  q34Id?: string;
+
+  @Column({ type: 'varchar', length: 256, nullable: true })
+  q34Ans?: string;
+
+  @OneToOne(() => Question, { onUpdate: 'CASCADE', onDelete: 'SET NULL' })
+  @JoinColumn({ name: 'q34Id', referencedColumnName: 'id' })
+  q34: Question;
+
+  @Column({ type: 'bigint', unsigned: true, nullable: true })
+  q35Id?: string;
+
+  @Column({ type: 'varchar', length: 256, nullable: true })
+  q35Ans?: string;
+
+  @OneToOne(() => Question, { onUpdate: 'CASCADE', onDelete: 'SET NULL' })
+  @JoinColumn({ name: 'q35Id', referencedColumnName: 'id' })
+  q35: Question;
+
+  @Column({ type: 'bigint', unsigned: true, nullable: true })
+  q36Id?: string;
+
+  @Column({ type: 'varchar', length: 256, nullable: true })
+  q36Ans?: string;
+
+  @OneToOne(() => Question, { onUpdate: 'CASCADE', onDelete: 'SET NULL' })
+  @JoinColumn({ name: 'q36Id', referencedColumnName: 'id' })
+  q36: Question;
+
+  @Column({ type: 'bigint', unsigned: true, nullable: true })
+  q37Id?: string;
+
+  @Column({ type: 'varchar', length: 256, nullable: true })
+  q37Ans?: string;
+
+  @OneToOne(() => Question, { onUpdate: 'CASCADE', onDelete: 'SET NULL' })
+  @JoinColumn({ name: 'q37Id', referencedColumnName: 'id' })
+  q37: Question;
+
+  @Column({ type: 'bigint', unsigned: true, nullable: true })
+  q38Id?: string;
+
+  @Column({ type: 'varchar', length: 256, nullable: true })
+  q38Ans?: string;
+
+  @OneToOne(() => Question, { onUpdate: 'CASCADE', onDelete: 'SET NULL' })
+  @JoinColumn({ name: 'q38Id', referencedColumnName: 'id' })
+  q38: Question;
+
+  @Column({ type: 'bigint', unsigned: true, nullable: true })
+  q39Id?: string;
+
+  @Column({ type: 'varchar', length: 256, nullable: true })
+  q39Ans?: string;
+
+  @OneToOne(() => Question, { onUpdate: 'CASCADE', onDelete: 'SET NULL' })
+  @JoinColumn({ name: 'q39Id', referencedColumnName: 'id' })
+  q39: Question;
+
+  @Column({ type: 'bigint', unsigned: true, nullable: true })
+  q40Id?: string;
+
+  @Column({ type: 'varchar', length: 256, nullable: true })
+  q40Ans?: string;
+
+  @OneToOne(() => Question, { onUpdate: 'CASCADE', onDelete: 'SET NULL' })
+  @JoinColumn({ name: 'q40Id', referencedColumnName: 'id' })
+  q40: Question;
 
   @Column({ name: 'question_count', type: 'int' })
   questionCount: number;
