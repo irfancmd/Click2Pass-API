@@ -124,10 +124,59 @@ export class QuestionService {
     id: string,
     updateQuestionDto: UpdateQuestionDto,
   ): Promise<CommonResponseDto> {
+    const prevData = await this.questionRepository.findOne({ where: { id } });
+
     let updatedQuestion = await this.questionRepository.preload({
       id,
       ...updateQuestionDto,
     });
+
+    // Don't turn media into null if they're not provided
+    if (prevData) {
+      if (!updateQuestionDto.questionMediaUrl) {
+        updateQuestionDto.questionMediaUrl = prevData.questionMediaUrl;
+        updateQuestionDto.questionMediaType = prevData.questionMediaType;
+      }
+
+      if (!updateQuestionDto.answerOption1MediaUrl) {
+        updateQuestionDto.answerOption1MediaUrl =
+          prevData.answerOption1MediaUrl;
+        updateQuestionDto.answerOption1MediaType =
+          prevData.answerOption1MediaType;
+      }
+
+      if (!updateQuestionDto.answerOption2MediaUrl) {
+        updateQuestionDto.answerOption2MediaUrl =
+          prevData.answerOption2MediaUrl;
+        updateQuestionDto.answerOption2MediaType =
+          prevData.answerOption2MediaType;
+      }
+
+      if (!updateQuestionDto.answerOption3MediaUrl) {
+        updateQuestionDto.answerOption3MediaUrl =
+          prevData.answerOption3MediaUrl;
+        updateQuestionDto.answerOption3MediaType =
+          prevData.answerOption3MediaType;
+      }
+      if (!updateQuestionDto.answerOption4MediaUrl) {
+        updateQuestionDto.answerOption4MediaUrl =
+          prevData.answerOption4MediaUrl;
+        updateQuestionDto.answerOption4MediaType =
+          prevData.answerOption4MediaType;
+      }
+      if (!updateQuestionDto.answerOption5MediaUrl) {
+        updateQuestionDto.answerOption5MediaUrl =
+          prevData.answerOption5MediaUrl;
+        updateQuestionDto.answerOption5MediaType =
+          prevData.answerOption5MediaType;
+      }
+      if (!updateQuestionDto.answerOption6MediaUrl) {
+        updateQuestionDto.answerOption6MediaUrl =
+          prevData.answerOption6MediaUrl;
+        updateQuestionDto.answerOption6MediaType =
+          prevData.answerOption6MediaType;
+      }
+    }
 
     if (updatedQuestion && updateQuestionDto.lessonId) {
       const lesson = await this.lessonRepository.findOne({
@@ -325,7 +374,7 @@ export class QuestionService {
   async getRandomQuestionsForDriving(): Promise<
     { chapterId: string; questionId: string }[]
   > {
-    const roadSignQuestions = [];
+    let roadSignQuestions = [];
 
     const roadSignQuestionSets = await this.questionSetRepository.find({
       where: { drivingSetType: 1 },
@@ -336,7 +385,7 @@ export class QuestionService {
       roadSignQuestions.push(...s.questions);
     });
 
-    const rulesOfRoadQuestions = [];
+    let rulesOfRoadQuestions = [];
 
     const rulesOfTheRoadQuestionSets = await this.questionSetRepository.find({
       where: { drivingSetType: 2 },
@@ -356,6 +405,9 @@ export class QuestionService {
     const qIds = [];
 
     // First 20 question will come from road signs.
+    // Make sure each question is unique
+    roadSignQuestions = this.getDistinctObjectsById(roadSignQuestions);
+
     let roadSignRemaining =
       roadSignQuestions.length < 20 ? roadSignQuestions.length : 20;
 
@@ -363,7 +415,7 @@ export class QuestionService {
       const randomIndex = Math.floor(Math.random() * roadSignQuestions.length);
 
       const questionObj = {
-        chapterId: roadSignQuestions[randomIndex],
+        chapterId: roadSignQuestions[randomIndex].chapterId,
         questionId: roadSignQuestions[randomIndex].id,
       };
 
@@ -377,6 +429,13 @@ export class QuestionService {
     }
 
     // Last 20 question will come from rules of the road.
+    // Make sure each question is unique
+    rulesOfRoadQuestions = this.getDistinctObjectsById(rulesOfRoadQuestions);
+    // Also before adding questions, make sure none of the questions in this set appear in any previous set that we checked
+    rulesOfRoadQuestions = rulesOfRoadQuestions.filter(
+      (q) => !qIds.includes(q.id),
+    );
+
     let rulesOfRoadRemaining =
       rulesOfRoadQuestions.length < 20 ? rulesOfRoadQuestions.length : 20;
 
@@ -432,5 +491,17 @@ export class QuestionService {
         array[currentIndex],
       ];
     }
+  }
+
+  getDistinctObjectsById(array) {
+    const idMap = new Map();
+
+    array.forEach((obj) => {
+      if (!idMap.has(obj.id)) {
+        idMap.set(obj.id, obj);
+      }
+    });
+
+    return Array.from(idMap.values());
   }
 }
