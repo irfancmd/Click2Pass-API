@@ -126,11 +126,6 @@ export class QuestionService {
   ): Promise<CommonResponseDto> {
     const prevData = await this.questionRepository.findOne({ where: { id } });
 
-    let updatedQuestion = await this.questionRepository.preload({
-      id,
-      ...updateQuestionDto,
-    });
-
     // Don't turn media into null if they're not provided
     if (prevData) {
       if (!updateQuestionDto.questionMediaUrl) {
@@ -177,6 +172,11 @@ export class QuestionService {
           prevData.answerOption6MediaType;
       }
     }
+
+    let updatedQuestion = await this.questionRepository.preload({
+      id,
+      ...updateQuestionDto,
+    });
 
     if (updatedQuestion && updateQuestionDto.lessonId) {
       const lesson = await this.lessonRepository.findOne({
